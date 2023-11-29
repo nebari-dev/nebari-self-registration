@@ -12,35 +12,58 @@ resource "keycloak_openid_client" "this" {
   base_url                     = var.base_url
   valid_redirect_uris          = var.valid_redirect_uris
   enabled                      = true
+  service_accounts_enabled     = true
   standard_flow_enabled        = true
   direct_access_grants_enabled = false
   web_origins                  = ["+"]
 }
 
-resource "keycloak_openid_user_client_role_protocol_mapper" "this" {
-  realm_id   = var.realm_id
-  client_id  = keycloak_openid_client.this.id
-  name       = "user-client-role-mapper"
-  claim_name = "roles"
-
-  claim_value_type    = "String"
-  multivalued         = true
-  add_to_id_token     = true
-  add_to_access_token = true
-  add_to_userinfo     = true
+# Get manage-users role via data and assign it to registration client service account
+data "keycloak_openid_client" "realm_management" {
+  realm_id  = var.realm_id
+  client_id = "realm-management"
 }
 
-resource "keycloak_openid_group_membership_protocol_mapper" "this" {
-  realm_id   = var.realm_id
-  client_id  = keycloak_openid_client.this.id
-  name       = "group-membership-mapper"
-  claim_name = "groups"
-
-  full_path           = true
-  add_to_id_token     = true
-  add_to_access_token = true
-  add_to_userinfo     = true
+data "keycloak_role" "manage_users" {
+  realm_id  = var.realm_id
+  client_id = data.keycloak_openid_client.realm_management.id
+  name      = "manage-users"
 }
+
+resource "keycloak_openid_client_service_account_role" "registration_service_account_role" {
+  realm_id                = var.realm_id
+  service_account_user_id = keycloak_openid_client.this.service_account_user_id
+   # Need to source as data?
+  client_id               = data.keycloak_openid_client.realm_management.id
+  role                    = data.keycloak_role.manage_users.name
+}
+
+# TODO: don't think this is needed for this use case.  Must test
+
+# resource "keycloak_openid_user_client_role_protocol_mapper" "this" {
+#   realm_id   = var.realm_id
+#   client_id  = keycloak_openid_client.this.id
+#   name       = "user-client-role-mapper"
+#   claim_name = "roles"
+# 
+#   claim_value_type    = "String"
+#   multivalued         = true
+#   add_to_id_token     = true
+#   add_to_access_token = true
+#   add_to_userinfo     = true
+# }
+# 
+# resource "keycloak_openid_group_membership_protocol_mapper" "this" {
+#   realm_id   = var.realm_id
+#   client_id  = keycloak_openid_client.this.id
+#   name       = "group-membership-mapper"
+#   claim_name = "groups"
+# 
+#   full_path           = true
+#   add_to_id_token     = true
+#   add_to_access_token = true
+#   add_to_userinfo     = true
+# }
 
 data "kubernetes_resource" "signing_key" {
   count = var.signing_key_ref == null ? 0 : 1

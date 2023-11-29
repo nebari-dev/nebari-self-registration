@@ -4,7 +4,7 @@ coupons:
   - COUPON2
 approved_domains:
   - test.com
-
+account_expiration_days: 7
 # TODO - this comes from stage inputs and outputs of the keycloak module
 keycloak:
   server_url: "https://nebari.kflabs.click/auth/"

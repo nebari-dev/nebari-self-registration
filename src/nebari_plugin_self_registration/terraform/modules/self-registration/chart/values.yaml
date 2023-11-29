@@ -8,7 +8,7 @@ image:
   repository: docker.io/kennethfoster/nebari-self-registration
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "0.3"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -96,3 +96,13 @@ auth:
 
 logLevel: info
 timeout: 300
+
+app_configuration:
+  coupons: []
+  approved_domains: []
+  account_expiration_days: 7
+  keycloak:
+    server_url: "http://server.com/auth"
+    realm_name: "my-realm"
+    client_id: "self-registration"
+    client_secret: ""

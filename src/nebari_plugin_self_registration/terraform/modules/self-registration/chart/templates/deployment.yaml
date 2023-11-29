@@ -54,6 +54,9 @@ spec:
           - name: http
             containerPort: 8000
             protocol: TCP
+          volumeMounts:
+          - name: config-volume
+            mountPath: /mnt
           # TODO: liveness/readiness probe in app
           #livenessProbe:
           #  httpGet:
@@ -65,6 +68,10 @@ spec:
           #    port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ .Chart.Name }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

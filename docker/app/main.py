@@ -8,7 +8,7 @@ print(os.getcwd())
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
-config = yaml.safe_load(open("config.yml"))
+config = yaml.safe_load(open("/mnt/config.yaml"))
 
 def check_email_domain(email):
     approved_domains = config.get("approved_domains", [])

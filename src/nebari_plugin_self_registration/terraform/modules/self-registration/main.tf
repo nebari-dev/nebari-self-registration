@@ -51,6 +51,17 @@ resource "helm_release" "self_registration" {
       serviceAccount = {
         name = var.self_registration_sa_name
       }
+      app_configuration = {
+        coupons = ["COUPON1"]
+        approved_domains = ["gmail.com"]
+        account_expiration_days = "7"
+        keycloak = {
+          server_url: "https://nebari.kflabs.click/auth"
+          realm_name: "nebari"
+          client_id: "self-registration"
+          client_secret: "746827e0-6408-41db-a0b7-174444912282"
+        }
+      }
       env = [
       ]
     }),
