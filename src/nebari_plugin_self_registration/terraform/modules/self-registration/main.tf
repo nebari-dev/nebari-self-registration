@@ -52,14 +52,15 @@ resource "helm_release" "self_registration" {
         name = var.self_registration_sa_name
       }
       app_configuration = {
-        coupons = ["COUPON1"]
-        approved_domains = ["gmail.com"]
-        account_expiration_days = "7"
+        coupons                 = var.coupons
+        approved_domains        = var.approved_domains
+        account_expiration_days = var.account_expiration_days
+        registration_group      = var.registration_group
         keycloak = {
-          server_url: "https://nebari.kflabs.click/auth"
-          realm_name: "nebari"
-          client_id: "self-registration"
-          client_secret: "746827e0-6408-41db-a0b7-174444912282"
+          server_url    = var.keycloak_base_url
+          realm_name    = var.realm_id
+          client_id     = "self-registration"
+          client_secret = var.keycloak_config["client_secret"]
         }
       }
       env = [

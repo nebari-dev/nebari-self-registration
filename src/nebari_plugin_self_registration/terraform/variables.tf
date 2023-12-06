@@ -64,3 +64,27 @@ variable "overrides" {
   type    = map(any)
   default = {}
 }
+
+variable "account_expiration_days" {
+  description = "Days a self-registered account remains active before expiring."
+  type        = number
+  default     = 7
+}
+
+variable "approved_domains" {
+  description = "Approved email domains for user self registration"
+  type        = list(string)
+  default     = []
+}
+
+variable "coupons" {
+  description = "Valid coupons for user self registration"
+  type        = list(string)
+  default     = []
+}
+
+variable "registration_group" {
+  description = "Name of Keycloak group to add registering users"
+  type        = string
+  default     = ""
+}

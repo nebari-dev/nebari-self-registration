@@ -3,12 +3,32 @@ variable "chart_name" {
   type        = string
 }
 
+variable "account_expiration_days" {
+  description = "Days a self-registered account remains active before expiring."
+  type        = number
+}
+
+variable "approved_domains" {
+  description = "Approved email domains for user self registration"
+  type        = list(string)
+}
+
+variable "coupons" {
+  description = "Valid coupons for user self registration"
+  type        = list(string)
+}
+
 variable "create_namespace" {
   type = bool
 }
 
 variable "ingress_host" {
   description = "DNS name for Traefik host"
+  type        = string
+}
+
+variable "keycloak_base_url" {
+  description = "Base URL for KeycloakAdmin"
   type        = string
 }
 
@@ -19,6 +39,16 @@ variable "keycloak_config" {
 
 variable "namespace" {
   type = string
+}
+
+variable "realm_id" {
+  description = "Keycloak realm_id"
+  type        = string
+}
+
+variable "registration_group" {
+  description = "Name of Keycloak group to add registering users"
+  type        = string
 }
 
 variable "self_registration_sa_name" {

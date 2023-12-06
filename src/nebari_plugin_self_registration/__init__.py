@@ -21,6 +21,11 @@ class SelfRegistrationConfig(Base):
     name: Optional[str] = "self-registration"
     namespace: Optional[str] = None
     values: Optional[Dict[str, Any]] = {}
+    account_expiration_days: Optional[int] = 7
+    approved_domains: Optional[List[str]] = []
+    coupons: Optional[List[str]] = []
+    registration_group: Optional[str] = ""
+
 
 class InputSchema(Base):
     self_registration: SelfRegistrationConfig = SelfRegistrationConfig()
@@ -133,6 +138,10 @@ class SelfRegistrationStage(NebariTerraformStage):
 
         return {
             "chart_name": self.config.self_registration.name,
+            "account_expiration_days": self.config.self_registration.account_expiration_days,
+            "approved_domains": self.config.self_registration.approved_domains,
+            "coupons": self.config.self_registration.coupons,
+            "registration_group": self.config.self_registration.registration_group,
             "project_name": self.config.escaped_project_name,
             "realm_id": keycloak_config["realm_id"],
             "client_id": CLIENT_NAME,
