@@ -13,7 +13,7 @@ RUN echo "cython<3" > /tmp/constraint.txt
 RUN PIP_CONSTRAINT=/tmp/constraint.txt pip install --no-cache-dir --upgrade -r /tmp/requirements.txt
 
 # 
-COPY ./app /app
+COPY docker/app /app
 
 # 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
