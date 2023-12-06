@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 from fastapi import FastAPI, Form, Request
 from fastapi.templating import Jinja2Templates
+import string
+import random
 import yaml
 from keycloak import KeycloakAdmin, KeycloakConnectionError, KeycloakGetError
 import os
@@ -22,6 +24,10 @@ def check_email_domain(email):
     return False
 
 def create_keycloak_user(email, expiration_days=7):
+    # Random password generator
+    def generate_random_password(length=12):
+        characters = string.ascii_letters + string.digits + string.punctuation
+        return ''.join(random.choice(characters) for i in range(length))
 
     try:
         keycloak_admin = KeycloakAdmin(
@@ -59,7 +65,11 @@ def create_keycloak_user(email, expiration_days=7):
         },
     }
     user_id = keycloak_admin.create_user(user_data)
-    return keycloak_admin.get_user(user_id)
+
+    # Set a random temporary password
+    temporary_password = generate_random_password()
+    keycloak_admin.set_user_password(user_id, temporary_password, temporary=True)
+    return keycloak_admin.get_user(user_id), temporary_password
 
 # Function to assign a user to a group
 def assign_user_to_group(user, group_name):
@@ -93,19 +103,19 @@ def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/registration/validate/")
-async def validate_coupon(request: Request, email: str = Form(...), coupon_code: str = Form(...)):
+async def validate_submission(request: Request, email: str = Form(...), coupon_code: str = Form(...)):
     if coupon_code in config.get("coupons", []):
         if check_email_domain(email):
             
             # Create the user in Keycloak
-            user = create_keycloak_user(email, config.get("account_expiration_days", None))
+            user, temporary_password = create_keycloak_user(email, config.get("account_expiration_days", None))
 
             # Assign user to group
             if user:
                 success = assign_user_to_group(user, config.get("registration_group", None))
 
                 if success:
-                    return templates.TemplateResponse("success.html", {"request": request, "email": email, "coupon_code": coupon_code, "user_id": user["id"]})
+                    return templates.TemplateResponse("success.html", {"request": request, "email": email, "temporary_password": temporary_password, "user_id": user["id"]})
                 else:
                     return templates.TemplateResponse("index.html", {"request": request, "error_message": "Your user was registered but could not be granted access to JupyterLab environments.  Please contact support for assistance."})
             else:

@@ -4,11 +4,10 @@
 
 replicaCount: 1
 image:
-  # TODO: temporary image until MetroStar GH package is public.
-  repository: docker.io/kennethfoster/nebari-self-registration
+  repository: ghcr.io/metrostar/nebari-self-registration
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.3"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""

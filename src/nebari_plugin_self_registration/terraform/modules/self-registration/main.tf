@@ -1,9 +1,4 @@
 locals {
-
-  # TODO: temporary image until MetroStar GH package is public.
-  image_name = "docker.io/kennethfoster/nebari-self-registration"
-  image_tag  = "latest"
-
 }
 
 resource "kubernetes_namespace" "this" {
@@ -43,10 +38,6 @@ resource "helm_release" "self_registration" {
             userinfo_url  = var.keycloak_config["userinfo_url"]
           }
         }
-      }
-      image = {
-        repository = local.image_name
-        tag        = local.image_tag
       }
       serviceAccount = {
         name = var.self_registration_sa_name
