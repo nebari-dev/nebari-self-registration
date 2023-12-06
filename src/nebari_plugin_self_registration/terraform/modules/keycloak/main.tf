@@ -38,33 +38,6 @@ resource "keycloak_openid_client_service_account_role" "registration_service_acc
   role                    = data.keycloak_role.manage_users.name
 }
 
-# TODO: don't think this is needed for this use case.  Must test
-
-# resource "keycloak_openid_user_client_role_protocol_mapper" "this" {
-#   realm_id   = var.realm_id
-#   client_id  = keycloak_openid_client.this.id
-#   name       = "user-client-role-mapper"
-#   claim_name = "roles"
-# 
-#   claim_value_type    = "String"
-#   multivalued         = true
-#   add_to_id_token     = true
-#   add_to_access_token = true
-#   add_to_userinfo     = true
-# }
-# 
-# resource "keycloak_openid_group_membership_protocol_mapper" "this" {
-#   realm_id   = var.realm_id
-#   client_id  = keycloak_openid_client.this.id
-#   name       = "group-membership-mapper"
-#   claim_name = "groups"
-# 
-#   full_path           = true
-#   add_to_id_token     = true
-#   add_to_access_token = true
-#   add_to_userinfo     = true
-# }
-
 data "kubernetes_resource" "signing_key" {
   count = var.signing_key_ref == null ? 0 : 1
 

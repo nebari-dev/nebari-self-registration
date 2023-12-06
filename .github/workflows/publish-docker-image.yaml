@@ -13,9 +13,8 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-# TODO: on pull_request for testing.  Change to push once verified
 jobs:
-  pull_request:
+  push:
     runs-on: ubuntu-latest
     permissions:
       packages: write
