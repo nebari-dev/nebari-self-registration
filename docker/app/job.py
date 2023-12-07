@@ -30,7 +30,7 @@ def run():
         )
 
         keycloak_admin = KeycloakAdmin(connection=keycloak_connection)
-    except KeycloakConnectionError as e:
+    except Exception as e:
         logger.error(f"Failed to initialize Keycloak client, error {e}")
         exit(1)
 
@@ -62,30 +62,39 @@ def check_expired_users(keycloak_admin):
     result = []
 
     while True:
-        users = keycloak_admin.get_users(
-            {
-                "enabled": True,
-                "first": page_num * page_size,
-                "max": page_size,
-            }
-        )
+        users = []
+
+        try:
+            users = keycloak_admin.get_users(
+                {
+                    "enabled": True,
+                    "first": page_num * page_size,
+                    "max": page_size,
+                }
+            )
+        except Exception as e:
+            logger.error(f"Failed to get Keycloak users, page {page_num}, size {page_size}, error {e}")
+            break
 
         if len(users) == 0:
             logger.debug(f"No users found, page {page_num}, size {page_size}")
             break
 
         for u in users:
-            if u.get("attributes") and len(u["attributes"].get("account_expiration_date", [])) > 0:
-                account_expiration_date_utc = datetime.datetime.strptime(
-                    u["attributes"]["account_expiration_date"][0], DATE_FORMAT
-                ).replace(tzinfo=datetime.timezone.utc)
-                if account_expiration_date_utc < now_utc:
-                    logger.debug(f"Expired user found {u['username']}")
-                    result.append(u)
+            try:
+                if u.get("attributes") and len(u["attributes"].get("account_expiration_date", [])) > 0:
+                    account_expiration_date_utc = datetime.datetime.strptime(
+                        u["attributes"]["account_expiration_date"][0], DATE_FORMAT
+                    ).replace(tzinfo=datetime.timezone.utc)
+                    if account_expiration_date_utc < now_utc:
+                        logger.debug(f"Expired user found {u['username']}")
+                        result.append(u)
+                    else:
+                        logger.info(f"User {u['username']} still valid, {account_expiration_date_utc}")
                 else:
-                    logger.info(f"User {u['username']} still valid, {account_expiration_date_utc}")
-            else:
-                logger.debug(f"User {u['username']} missing account_expiration_date attribute, ignoring")
+                    logger.debug(f"User {u['username']} missing account_expiration_date attribute, ignoring")
+            except Exception as e:
+                logger.error(f"Failed to process user {u['username']}, error {e}")
 
         page_num += 1
 
