@@ -5,9 +5,9 @@ import string
 import random
 import yaml
 from keycloak import KeycloakAdmin, KeycloakConnectionError, KeycloakGetError
-import os
 
-print(os.getcwd())
+class UserExistsException(Exception):
+    pass
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -45,7 +45,7 @@ def create_keycloak_user(email, expiration_days=7):
     # Check if the user already exists
     user_id = keycloak_admin.get_user_id(email)
     if user_id:
-        return user_id, True
+        raise UserExistsException("A user with this email address already exists. Contact the administrator if you need to recover your account.")
 
     # Calculate account expiration as Unix timestamp
     expiration_date = datetime.utcnow() + timedelta(days=expiration_days)
@@ -60,7 +60,6 @@ def create_keycloak_user(email, expiration_days=7):
         "email": email,
         "enabled": True,
         "attributes": {
-            "approved": "true",
             "account_expiration_date": formatted_expiration_date,
         },
     }
@@ -108,8 +107,11 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
         if check_email_domain(email):
             
             # Create the user in Keycloak
-            user, temporary_password = create_keycloak_user(email, config.get("account_expiration_days", None))
-
+            try:
+                user, temporary_password = create_keycloak_user(email, config.get("account_expiration_days", None))
+            except UserExistsException as e:
+                return templates.TemplateResponse("index.html", {"request": request, "error_message": str(e)})
+            
             # Assign user to group
             if user:
                 success = assign_user_to_group(user, config.get("registration_group", None))

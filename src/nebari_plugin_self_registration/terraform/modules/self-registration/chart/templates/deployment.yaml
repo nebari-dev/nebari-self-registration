@@ -70,8 +70,8 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
       - name: config-volume
-        configMap:
-          name: {{ .Chart.Name }}-config
+        secret:
+          secretName: {{ .Chart.Name }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

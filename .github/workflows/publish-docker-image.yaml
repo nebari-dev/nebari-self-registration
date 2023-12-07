@@ -32,9 +32,7 @@ jobs:
           IMAGE_ID=ghcr.io/$IMAGE_LC
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
-          # VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          # TODO: testing setting version to python package version.  If OK, then remove this line and above
-          VERSION=$(grep 'appVersion:' src/nebari_plugin_self_registration/terraform/modules/self-registration/chart/Chart.yaml | awk -F '"' '{print $2}')
+          VERSION={{ date 'YYYYMMDD-HHmm' }}
 
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
