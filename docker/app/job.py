@@ -3,7 +3,7 @@ import logging
 import os
 import yaml
 
-from keycloak import KeycloakAdmin, KeycloakConnectionError, KeycloakOpenIDConnection
+from keycloak import KeycloakAdmin, KeycloakOpenIDConnection
 
 log_level = os.environ.get("LOG_LEVEL", "info")
 
