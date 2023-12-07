@@ -27,7 +27,7 @@ spec:
             {{- toYaml .Values.job.podSecurityContext | nindent 12 }}
           containers:
           - name: main
-            image: "{{ .Values.job.image.repository }}:{{ .Values.job.image.tag }}"
+            image: "{{ .Values.job.image.repository | default .Values.image.repository }}:{{ .Values.job.image.tag | default .Values.image.tag | default .Chart.AppVersion }}"
             imagePullPolicy: {{ .Values.image.pullPolicy }}
             command:
             - python

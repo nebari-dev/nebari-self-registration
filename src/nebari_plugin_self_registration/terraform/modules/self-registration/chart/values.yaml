@@ -93,8 +93,8 @@ job:
   schedule: ""
   logLevel: ""
   image:
-    repository: ghcr.io/metrostar/nebari-self-registration
-    tag: "0.0.2"
+    repository: ""
+    tag: ""
   podSecurityContext: {}
   securityContext: {}
   resources: {}
