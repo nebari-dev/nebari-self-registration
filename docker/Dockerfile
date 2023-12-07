@@ -15,7 +15,5 @@ RUN PIP_CONSTRAINT=/tmp/constraint.txt pip install --no-cache-dir --upgrade -r /
 # 
 COPY ./app /app
 
-ENV KEYCLOAK_CONFIG_PATH=/app/config.yaml
-
 # 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
