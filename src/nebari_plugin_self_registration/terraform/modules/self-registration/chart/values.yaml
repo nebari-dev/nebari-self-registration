@@ -86,15 +86,18 @@ env: []
 
 envFrom: []
 
-auth:
-  enabled: false
-  image: thomseddon/traefik-forward-auth
-  tag: "2"
-  service:
-    port: 4181
-
 logLevel: info
 timeout: 300
+
+job:
+  schedule: ""
+  logLevel: ""
+  image:
+    repository: ghcr.io/metrostar/nebari-self-registration
+    tag: "0.0.2"
+  podSecurityContext: {}
+  securityContext: {}
+  resources: {}
 
 app_configuration:
   account_expiration_days: 7

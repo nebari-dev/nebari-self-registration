@@ -97,8 +97,9 @@ def disable_user(keycloak_admin, user):
 
     try:
         user["enabled"] = False
+        user["attributes"]["disabled_by"] = "job"
         user["attributes"]["disabled_on"] = datetime.datetime.now(datetime.UTC).strftime(DATE_FORMAT)
-        # keycloak_admin.update_user(user_id=user["id"], payload=user)
+        keycloak_admin.update_user(user_id=user["id"], payload=user)
         return True
     except Exception as e:
         logger.error(f"Failed to disable user {user['username']}, error {e}")
