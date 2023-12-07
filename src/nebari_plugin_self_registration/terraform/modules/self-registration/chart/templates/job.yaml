@@ -38,6 +38,8 @@ spec:
               value: {{ .Values.job.logLevel | default .Values.logLevel | default "warning" | quote }}
             - name: KEYCLOAK_CONFIG_PATH
               value: /mnt/config.yaml
+            - name: JOB_NAME
+              value: {{ include "self-registration.fullname" . }}-expired-users
             volumeMounts:
             - name: config-volume
               mountPath: /mnt

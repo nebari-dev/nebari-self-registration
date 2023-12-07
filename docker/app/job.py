@@ -106,7 +106,7 @@ def disable_user(keycloak_admin, user):
 
     try:
         user["enabled"] = False
-        user["attributes"]["disabled_by"] = "job"
+        user["attributes"]["disabled_by"] = os.environ.get("JOB_NAME", os.environ.get("HOSTNAME", "cronjob"))
         user["attributes"]["disabled_on"] = datetime.datetime.now(datetime.UTC).strftime(DATE_FORMAT)
         keycloak_admin.update_user(user_id=user["id"], payload=user)
         return True
