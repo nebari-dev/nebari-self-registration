@@ -8,9 +8,6 @@ module "keycloak" {
   realm_id            = var.realm_id
   client_id           = var.client_id
   base_url            = var.base_url
-  external_url        = var.external_url
-  valid_redirect_uris = var.valid_redirect_uris
-  signing_key_ref     = var.signing_key_ref
 }
 
 module "self-registration" {
