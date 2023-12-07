@@ -25,27 +25,5 @@ spec:
       namespace: {{ .Release.Namespace }}
       passHostHeader: true
       port: {{ $svcPort }}
-    {{- if .Values.auth.enabled }}
-    middlewares:
-    - name: {{ .Release.Name }}-traefik-forward-auth
-      namespace: {{ .Release.Namespace }}
-    {{- end }}
-
-{{- if .Values.auth.enabled }}
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: {{ .Release.Name }}-traefik-forward-auth
-  labels:
-    {{- include "self-registration.labels" . | nindent 4 }}
-spec:
-  forwardAuth:
-    address: http://{{ .Release.Name }}-traefik-forward-auth.{{ .Release.Namespace }}:{{ .Values.auth.service.port }}/
-    authResponseHeaders:
-    - X-Forwarded-User
-
-{{- end }}
 
 {{- end }}
