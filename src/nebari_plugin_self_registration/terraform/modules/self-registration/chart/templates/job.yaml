@@ -1,0 +1,66 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "self-registration.fullname" . }}-expired-users
+  labels:
+    {{- include "self-registration.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  schedule: {{ .Values.job.schedule | default "0 * * * *" | quote }}
+  successfulJobsHistoryLimit: 7
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 600
+      template:
+        metadata:
+          labels:
+            {{- include "self-registration.labels" . | nindent 12 }}
+        spec:
+          serviceAccountName: {{ include "self-registration.serviceAccountName" . }}
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.job.podSecurityContext | nindent 12 }}
+          containers:
+          - name: main
+            image: "{{ .Values.job.image.repository | default .Values.image.repository }}:{{ .Values.job.image.tag | default .Values.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            command:
+            - python
+            args:
+            - job.py
+            env:
+            - name: LOG_LEVEL
+              value: {{ .Values.job.logLevel | default .Values.logLevel | default "warning" | quote }}
+            - name: KEYCLOAK_CONFIG_PATH
+              value: /mnt/config.yaml
+            - name: JOB_NAME
+              value: {{ include "self-registration.fullname" . }}-expired-users
+            volumeMounts:
+            - name: config-volume
+              mountPath: /mnt
+            securityContext:
+              {{- toYaml .Values.job.securityContext | nindent 14 }}
+            resources:
+              {{- toYaml .Values.job.resources | nindent 14 }}
+          volumes:
+          - name: config-volume
+            secret:
+              secretName: {{ .Chart.Name }}-config
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          restartPolicy: OnFailure

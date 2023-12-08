@@ -1,0 +1,29 @@
+{{- if and .Values.ingress.enabled (eq .Values.ingress.type "traefik") -}}
+
+{{- $fullName := include "self-registration.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "self-registration.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  entryPoints:
+  {{- range .Values.ingress.entryPoints }}
+  - {{ . | quote }}
+  {{- end }}
+  routes:
+  - kind: Rule
+    match: Host(`{{ .Values.ingress.host }}`) && PathPrefix(`{{ .Values.ingress.path }}`)
+    services:
+    - name: {{ $fullName }}
+      namespace: {{ .Release.Namespace }}
+      passHostHeader: true
+      port: {{ $svcPort }}
+
+{{- end }}
