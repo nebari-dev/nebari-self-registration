@@ -1,6 +1,4 @@
 locals {
-  # Updates version of both web app and cron job unless .Values.job.image.tag is overridden
-  app_image_tag = "20231207-2012"
 }
 
 resource "kubernetes_namespace" "this" {
@@ -38,9 +36,6 @@ resource "helm_release" "self_registration" {
           client_id     = var.keycloak_config["client_id"]
           client_secret = var.keycloak_config["client_secret"]
         }
-      }
-      image = {
-        tag = local.app_image_tag
       }
       env = [
       ]
