@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from fastapi import FastAPI, Form, Request
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 import string
 import random
 import yaml
@@ -10,6 +11,7 @@ class UserExistsException(Exception):
     pass
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 file_path = "/mnt/config.yaml"
@@ -39,7 +41,7 @@ def create_keycloak_user(email, expiration_days=7):
             verify=True,
         )
     except KeycloakConnectionError:
-        return email, False
+        return email, False, None
 
 
     # Check if the user already exists
@@ -68,7 +70,7 @@ def create_keycloak_user(email, expiration_days=7):
     # Set a random temporary password
     temporary_password = generate_random_password()
     keycloak_admin.set_user_password(user_id, temporary_password, temporary=True)
-    return keycloak_admin.get_user(user_id), temporary_password
+    return keycloak_admin.get_user(user_id), temporary_password, expiration_date
 
 # Function to assign a user to a group
 def assign_user_to_group(user, group_name):
@@ -108,7 +110,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
             
             # Create the user in Keycloak
             try:
-                user, temporary_password = create_keycloak_user(email, config.get("account_expiration_days", None))
+                user, temporary_password, expiration_date = create_keycloak_user(email, config.get("account_expiration_days", None))
             except UserExistsException as e:
                 return templates.TemplateResponse("index.html", {"request": request, "error_message": str(e)})
             
@@ -117,7 +119,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                 success = assign_user_to_group(user, config.get("registration_group", None))
 
                 if success:
-                    return templates.TemplateResponse("success.html", {"request": request, "email": email, "temporary_password": temporary_password, "user_id": user["id"]})
+                    return templates.TemplateResponse("success.html", {"request": request, "email": email, "temporary_password": temporary_password, "user_id": user["id"], "expiration_date": expiration_date.strftime("%%m-%d-Y")})
                 else:
                     return templates.TemplateResponse("index.html", {"request": request, "error_message": "Your user was registered but could not be granted access to JupyterLab environments.  Please contact support for assistance."})
             else:
