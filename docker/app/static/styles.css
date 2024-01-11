@@ -1,0 +1,140 @@
+header {
+  height: 56px;
+  background-color: #000;
+  color: #fff;
+  font-size: 36px;
+}
+header > img {
+  height: 40px;
+  margin: 8px 24px;
+}
+.container {
+  max-width: 100% !important;
+  height: 80vh;
+  padding: 48px;
+}
+.card {
+  width: 400px;
+  margin: auto auto;
+  vertical-align: middle;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+}
+.card-header {
+  display: flex;
+  padding: 16px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+  border: 1px solid #eab54e;
+  background: #eab54e;
+}
+.card-header > h1 {
+  color: #000;
+  text-align: center;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+.card-body {
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+}
+.card-body > p {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+form {
+  width: 100%;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+  padding-bottom: 20px;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+input:not(.btn) {
+  width: 100%;
+  display: flex;
+  padding: 9px 16px;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 6px;
+  border: 1px solid #e1e1e6;
+  background: #fff;
+}
+input:focus,
+.btn.btn-primary:focus {
+  outline: 0.2rem solid #ba18da;
+}
+.btn {
+  width: 100%;
+  display: flex;
+  padding: 10px 16px;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-primary {
+  background-color: #ba18da !important;
+  color: #fff;
+}
+.btn-primary:focus {
+  outline-offset: 0.2rem;
+}
+.confirmation > h1 {
+  color: #000;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+.password-box {
+  width: 300px;
+  display: flex;
+  padding: 9px 16px !important;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  border: 1px solid #e1e1e6;
+  background: #fff;
+}
+
+.password-content {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.copy-btn {
+  border-width: 0 !important;
+  background-color: none !important;
+}
