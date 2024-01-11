@@ -126,7 +126,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                 success = assign_user_to_group(user, config.get("registration_group", None))
 
                 if success:
-                    return templates.TemplateResponse("success.html", {"url_prefix": url_prefix, "request": request, "email": email, "temporary_password": temporary_password, "user_id": user["id"], "expiration_date": expiration_date.strftime("%m-%d-Y")})
+                    return templates.TemplateResponse("success.html", {"url_prefix": url_prefix, "request": request, "email": email, "temporary_password": temporary_password, "user_id": user["id"], "expiration_date": expiration_date.strftime("%m-%d-%Y")})
                 else:
                     return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Your user was registered but could not be granted access to JupyterLab environments.  Please contact support for assistance."})
             else:
