@@ -4,11 +4,11 @@
     <title>Self Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet" /> -->
-    <link href="/static/styles.css" rel="stylesheet" />
+    <link href="{{ url_prefix }}/static/styles.css" rel="stylesheet" />
   </head>
   <body>
     <header class="flex content-center">
-      <img src="{{ url_for('static', path='/logo.png') }}" alt="logo" />
+      <img src="{{ url_prefix }}/static/logo.png" alt="logo" />
     </header>
     <div class="container flex justify-center">
       <div class="card content-center">
@@ -23,7 +23,7 @@
           {% if error_message %}
           <p style="color: red" class="w-full">{{ error_message }}</p>
           {% endif %}
-          <form method="post" action="/validate/">
+          <form method="post" action="{{ url_prefix }}/validate/">
             <div class="form-group">
               <label for="email">Email</label>
               <input

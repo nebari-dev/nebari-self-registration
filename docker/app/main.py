@@ -11,10 +11,12 @@ from keycloak import KeycloakAdmin, KeycloakConnectionError, KeycloakGetError
 class UserExistsException(Exception):
     pass
 
-app = FastAPI()
-prefix_router = APIRouter(prefix="/registration")
+# Manual context URL.  Must be prepended to all paths in app and templates.
+url_prefix = "/registration"
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app = FastAPI()
+
+app.mount(url_prefix+"/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 file_path = "/mnt/config.yaml"
@@ -104,11 +106,11 @@ def assign_user_to_group(user, group_name):
     
     return True
 
-@app.get("/")
+@app.get(url_prefix)
 def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request})
 
-@app.post("/validate/")
+@app.post(url_prefix + "/validate/")
 async def validate_submission(request: Request, email: str = Form(...), coupon_code: str = Form(...)):
     if coupon_code in config.get("coupons", []):
         if check_email_domain(email):
@@ -117,20 +119,20 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
             try:
                 user, temporary_password, expiration_date = create_keycloak_user(email, config.get("account_expiration_days", None))
             except UserExistsException as e:
-                return templates.TemplateResponse("index.html", {"request": request, "error_message": str(e)})
+                return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": str(e)})
             
             # Assign user to group
             if user:
                 success = assign_user_to_group(user, config.get("registration_group", None))
 
                 if success:
-                    return templates.TemplateResponse("success.html", {"request": request, "email": email, "temporary_password": temporary_password, "user_id": user["id"], "expiration_date": expiration_date.strftime("%m-%d-Y")})
+                    return templates.TemplateResponse("success.html", {"url_prefix": url_prefix, "request": request, "email": email, "temporary_password": temporary_password, "user_id": user["id"], "expiration_date": expiration_date.strftime("%m-%d-Y")})
                 else:
-                    return templates.TemplateResponse("index.html", {"request": request, "error_message": "Your user was registered but could not be granted access to JupyterLab environments.  Please contact support for assistance."})
+                    return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Your user was registered but could not be granted access to JupyterLab environments.  Please contact support for assistance."})
             else:
-                return templates.TemplateResponse("index.html", {"request": request, "error_message": "Unable to create user.  Please try again later."})
+                return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Unable to create user.  Please try again later."})
 
         else:
-            return templates.TemplateResponse("index.html", {"request": request, "error_message": "Email address is not allowed. Please use a different email address."})
+            return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Email address is not allowed. Please use a different email address."})
     else:
-        return templates.TemplateResponse("index.html", {"request": request, "error_message": "Invalid coupon code. Please try again."})
+        return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Invalid coupon code. Please try again."})
