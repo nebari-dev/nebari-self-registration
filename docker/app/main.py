@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Form, Request, APIRouter
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import string
@@ -12,6 +12,8 @@ class UserExistsException(Exception):
     pass
 
 app = FastAPI()
+prefix_router = APIRouter(prefix="/registration")
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
@@ -102,11 +104,11 @@ def assign_user_to_group(user, group_name):
     
     return True
 
-@app.get("/registration/")
+@app.get("/")
 def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-@app.post("/registration/validate/")
+@app.post("/validate/")
 async def validate_submission(request: Request, email: str = Form(...), coupon_code: str = Form(...)):
     if coupon_code in config.get("coupons", []):
         if check_email_domain(email):
