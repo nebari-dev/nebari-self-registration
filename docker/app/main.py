@@ -3,6 +3,7 @@ from fastapi import FastAPI, Form, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import string
+import re
 import random
 import yaml
 from keycloak import KeycloakAdmin, KeycloakConnectionError, KeycloakGetError
@@ -21,7 +22,9 @@ with open(file_path, "r") as file:
 def check_email_domain(email):
     approved_domains = config.get("approved_domains", [])
     for domain in approved_domains:
-        if email.endswith(f"@{domain}"):
+        # Replace wildcard with its regex equivalent
+        pattern = domain.replace('*', '.*')
+        if re.search(f"@{pattern}$", email):
             return True
     return False
 
