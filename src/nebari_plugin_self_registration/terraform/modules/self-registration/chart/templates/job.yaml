@@ -55,7 +55,7 @@ spec:
           nodeSelector:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.affinity }}
+          {{- with .Values.job.affinity }}
           affinity:
             {{- toYaml . | nindent 12 }}
           {{- end }}

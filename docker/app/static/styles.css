@@ -1,12 +1,12 @@
 header {
-  height: 56px;
+  height: 41px;
   background-color: #000;
   color: #fff;
   font-size: 36px;
 }
 header > img {
-  height: 40px;
-  margin: 8px 24px;
+  height: 28px;
+  margin: 6px 24px;
 }
 .container {
   max-width: 100% !important;
@@ -27,8 +27,8 @@ header > img {
   align-items: flex-start;
   gap: 8px;
   align-self: stretch;
-  border: 1px solid #eab54e;
-  background: #eab54e;
+  border: 1px solid #e1e3e4;
+  background: #e1e3e4;
 }
 .card-header > h1 {
   color: #000;
@@ -89,7 +89,7 @@ input:not(.btn) {
 }
 input:focus,
 .btn.btn-primary:focus {
-  outline: 0.2rem solid #ba18da;
+  outline: 0.2rem solid #2e5084;
 }
 .btn {
   width: 100%;
@@ -102,7 +102,7 @@ input:focus,
   cursor: pointer;
 }
 .btn-primary {
-  background-color: #ba18da !important;
+  background-color: #2e5084 !important;
   color: #fff;
 }
 .btn-primary:focus {

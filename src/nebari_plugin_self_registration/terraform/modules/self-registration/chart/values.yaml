@@ -7,7 +7,7 @@ image:
   repository: ghcr.io/metrostar/nebari-self-registration
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "20240111-2128"
+  tag: "20240119-1720"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -98,6 +98,8 @@ job:
   podSecurityContext: {}
   securityContext: {}
   resources: {}
+  affinity: {}
+  
 
 app_configuration:
   account_expiration_days: 7

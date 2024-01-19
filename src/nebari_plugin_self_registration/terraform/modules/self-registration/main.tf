@@ -1,4 +1,17 @@
 locals {
+  affinity = var.affinity != null && lookup(var.affinity, "enabled", false) ? {
+    enabled = true
+    selector = try(
+      { for k in ["default", "app", "job"] : k => length(var.affinity.selector[k]) > 0 ? var.affinity.selector[k] : var.affinity.selector.default },
+      {
+        app = var.affinity.selector
+        job  = var.affinity.selector
+      },
+    )
+    } : {
+    enabled  = false
+    selector = null
+  }
 }
 
 resource "kubernetes_namespace" "this" {
@@ -21,6 +34,42 @@ resource "helm_release" "self_registration" {
       ingress = {
         enabled = "true"
         host    = var.ingress_host
+      }
+      affinity = local.affinity.enabled ? {
+        nodeAffinity = {
+          requiredDuringSchedulingIgnoredDuringExecution = {
+            nodeSelectorTerms = [
+              {
+                matchExpressions = [
+                  {
+                    key      = "eks.amazonaws.com/nodegroup"
+                    operator = "In"
+                    values   = [local.affinity.selector.app]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      } : {}
+      job = {
+        affinity = local.affinity.enabled ? {
+          nodeAffinity = {
+            requiredDuringSchedulingIgnoredDuringExecution = {
+              nodeSelectorTerms = [
+                {
+                  matchExpressions = [
+                    {
+                      key      = "eks.amazonaws.com/nodegroup"
+                      operator = "In"
+                      values   = [local.affinity.selector.job]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        } : {}
       }
       serviceAccount = {
         name = var.self_registration_sa_name
