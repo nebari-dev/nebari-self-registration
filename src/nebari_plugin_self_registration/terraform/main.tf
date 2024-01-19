@@ -26,4 +26,5 @@ module "self-registration" {
   keycloak_config           = module.keycloak.config
   overrides                 = var.overrides
   realm_id                  = var.realm_id
+  affinity                  = var.affinity
 }

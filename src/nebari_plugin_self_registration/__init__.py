@@ -2,11 +2,11 @@ import inspect
 import sys
 import time
 
-from nebari.schema import Base, ProviderEnum
+from nebari.schema import Base
 from _nebari.stages.base import NebariTerraformStage
 from nebari.hookspecs import NebariStage, hookimpl
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 from _nebari.stages.tf_objects import (
     NebariKubernetesProvider,
     NebariTerraformState,
@@ -17,6 +17,15 @@ TIMEOUT = 10
 
 CLIENT_NAME = "self-registration"
 
+class SelfRegistrationAffinitySelectorConfig(Base):
+    default: str
+    app: Optional[str] = ""
+    job: Optional[str] = ""
+
+class SelfRegistrationConfig(Base):
+    enabled: Optional[bool] = True
+    selector: Union[SelfRegistrationAffinitySelectorConfig, str] = "general"
+
 class SelfRegistrationConfig(Base):
     name: Optional[str] = "self-registration"
     namespace: Optional[str] = None
@@ -24,7 +33,8 @@ class SelfRegistrationConfig(Base):
     account_expiration_days: Optional[int] = 7
     approved_domains: Optional[List[str]] = []
     coupons: Optional[List[str]] = []
-    registration_group: Optional[str] = ""
+    registration_group: Optional[str] = ""    
+    affinity: SelfRegistrationConfig = SelfRegistrationConfig()
 
 
 class InputSchema(Base):
@@ -150,7 +160,13 @@ class SelfRegistrationStage(NebariTerraformStage):
             "create_namespace": create_ns,
             "namespace": chart_ns,
             "ingress_host": domain,
-            "overrides": self.config.self_registration.values
+            "overrides": self.config.self_registration.values,
+            "affinity": {
+                "enabled": self.config.self_registration.affinity.enabled,
+                "selector": self.config.self_registration.affinity.selector.__dict__
+                if isinstance(self.config.self_registration.affinity.selector, SelfRegistrationAffinitySelectorConfig)
+                else self.config.self_registration.affinity.selector,
+            },
 
         }
 
