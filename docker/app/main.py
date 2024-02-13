@@ -133,6 +133,6 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                 return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Unable to create user.  Please try again later."})
 
         else:
-            return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Email address is not allowed. Please use a different email address."})
+            return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Access to the platform is limited to accounts created with pre-approved email domains. The email address you provided when registering your account uses a domain that's not currently approved. Please contact the system administrator to request access."})
     else:
         return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, "error_message": "Invalid coupon code. Please try again."})
