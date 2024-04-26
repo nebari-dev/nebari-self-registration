@@ -19,7 +19,7 @@ pip install nebari-plugin-self-registration
 ## User Registration
 How to register for the playground:
 
-- go to [https://playground.jatic.net/](https://playground.jatic.net/)
+- Navigate to [https://playground.jatic.net/](https://playground.jatic.net/)
 <p align="center">
   <img src="images/main-landing.png" />
 </p>
@@ -58,14 +58,14 @@ How to register for the playground:
 
 - After you have entered a new password, you will receive an email from "donotreply@jatic.net".  Follow the verification instructions and you will be taken to the playground.
 
+<p align="center">
+  <img src="images/account-confirm.png" />
+</p>
+
 - Once your email is verified and you login you should see the Nebari landing page.
 
 <p align="center">
   <img src="images/nebari-landing.png" />
-</p>
-
-<p align="center">
-  <img src="images/account-confirm.png" />
 </p>
 
 ## License
