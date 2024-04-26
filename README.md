@@ -17,7 +17,7 @@ pip install nebari-plugin-self-registration
 ```
 
 ## User Registration
-How to register to try the playground:
+How to register for the playground:
 
 - go to [https://playground.jatic.net/](https://playground.jatic.net/)
 <p align="center">
@@ -50,13 +50,19 @@ How to register to try the playground:
   - lanl.gov
   - caci.com
 
-- Follow the instructions to login with your temporary password.  By clicking the "Login" button, it will take you to a Welcome page where you can sign in with Keycloak.
+- After clicking "Submit" follow the instructions to login with your temporary password. By clicking the "Login" button, it will take you to a Welcome page where you can sign in with Keycloak.
 
 <p align="center">
   <img src="images/account-register.png" />
 </p>
 
 - After you have entered a new password, you will receive an email from "donotreply@jatic.net".  Follow the verification instructions and you will be taken to the playground.
+
+- Once your email is verified and you login you should see the Nebari landing page.
+
+<p align="center">
+  <img src="images/nebari-landing.png" />
+</p>
 
 <p align="center">
   <img src="images/account-confirm.png" />
