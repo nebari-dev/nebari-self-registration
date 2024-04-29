@@ -24,7 +24,7 @@ How to register for the playground:
   <img src="images/main-landing.png" />
 </p>
 
-- Click the link at "To register for an account, click here." or go to https://{your-domain-name}/registartion
+- Click the link at "To register for an account, click here." or go to https://{your-domain-name}/registration
 
 <p align="center">
   <img src="images/account-register.png" />
