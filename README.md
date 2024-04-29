@@ -19,36 +19,18 @@ pip install nebari-plugin-self-registration
 ## User Registration
 How to register for the playground:
 
-- Navigate to [https://playground.jatic.net/](https://playground.jatic.net/)
+- Navigate to your nebari domain.
 <p align="center">
   <img src="images/main-landing.png" />
 </p>
 
-- Click the link at "To register for an account, click here." or go to [https://playground.jatic.net/registration](https://playground.jatic.net/registration)
+- Click the link at "To register for an account, click here." or go to https://{your-domain-name}/registartion
 
 <p align="center">
   <img src="images/account-register.png" />
 </p>
 
-- Enter your email address and coupon code.  Note that your email address must be on one of these domains:
-  - quansight.com
-  - metrostar.com
-  - mail.mil
-  - us.navy.mil
-  - us.af.mil
-  - army.mil
-  - va.gov
-  - hssedi.dhs.gov
-  - ll.mit.edu
-  - sei.cmu.edu
-  - mitre.org
-  - kitware.com
-  - ariacoustics.com
-  - ibm.com
-  - nyla.io
-  - morsecorp.com
-  - lanl.gov
-  - caci.com
+- Enter your email address and coupon code.
 
 - After clicking "Submit" follow the instructions to login with your temporary password. By clicking the "Login" button, it will take you to a Welcome page where you can sign in with Keycloak.
 
