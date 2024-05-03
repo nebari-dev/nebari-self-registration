@@ -38,7 +38,7 @@ Steps for self registration:
   <img src="images/account-register.png" />
 </p>
 
-- After you have entered a new password, you will receive an email from "donotreply@jatic.net".  Follow the verification instructions and you will be taken to the playground.
+- After you have entered a new password, you will receive a verification email.  
 
 <p align="center">
   <img src="images/account-confirm.png" />
