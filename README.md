@@ -44,7 +44,7 @@ Steps for self registration:
   <img src="images/account-confirm.png" />
 </p>
 
-- Once your email is verified and you login you should see the Nebari landing page.
+- Once your email is verified and you login you will see the Nebari landing page.
 
 <p align="center">
   <img src="images/nebari-landing.png" />
