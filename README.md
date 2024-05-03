@@ -19,7 +19,7 @@ pip install nebari-plugin-self-registration
 ## User Registration via this extension
 Steps for self registration:
 
-- Navigate to your nebari domain.
+- Navigate to your Nebari domain.
 <p align="center">
   <img src="images/main-landing.png" />
 </p>
