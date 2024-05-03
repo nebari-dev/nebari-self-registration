@@ -17,7 +17,7 @@ pip install nebari-plugin-self-registration
 ```
 
 ## User Registration via this extension
-How to register for the playground:
+Steps for self registration:
 
 - Navigate to your nebari domain.
 <p align="center">
