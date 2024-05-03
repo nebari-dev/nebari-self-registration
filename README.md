@@ -21,22 +21,18 @@ Steps for self registration:
 
 - Navigate to your Nebari domain.
 <p align="center">
-  <img src="images/main-landing.png" />
+  <img src="images/welcome-nebari.png" />
 </p>
 
 - Click the link at "To register for an account, click here." or go to https://{your-domain-name}/registration
 
 <p align="center">
-  <img src="images/account-register.png" />
+  <img src="images/account-register.png" width="400"/>
 </p>
 
 - Enter your email address and coupon code.
 
 - After clicking "Submit" follow the instructions to login with your temporary password. By clicking the "Login" button, it will take you to a Welcome page where you can sign in with Keycloak.
-
-<p align="center">
-  <img src="images/account-register.png" />
-</p>
 
 - After you have entered a new password, you will receive a verification email.  
 
@@ -47,7 +43,7 @@ Steps for self registration:
 - Once your email is verified and you login you will see the Nebari landing page.
 
 <p align="center">
-  <img src="images/nebari-landing.png" />
+  <img src="images/nebari-splash.png" />
 </p>
 
 ## License
