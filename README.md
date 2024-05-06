@@ -24,7 +24,7 @@ Steps for self registration:
   <img src="images/welcome-nebari.png" />
 </p>
 
-- Click the link at "To register for an account, click here." or go to https://{your-domain-name}/registration
+- You may have a hyperlink on the welcome page that takes you to the user registration form. If not, navigate to https://{your-domain-name}/registration
 
 <p align="center">
   <img src="images/account-register.png" width="400"/>
