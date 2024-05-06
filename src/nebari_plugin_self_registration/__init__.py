@@ -79,11 +79,11 @@ class SelfRegistrationStage(NebariTerraformStage):
                     keycloak_url,
                     username=username,
                     password=password,
-                    realm_name=master_realm_name,
+                    user_realm_name=master_realm_name,
+                    realm_name=client_realm_name,
                     client_id=client_id,
                     verify=verify,
                 )
-                realm_admin.realm_name = client_realm_name # switch to nebari realm
                 c = realm_admin.get_client_id(CLIENT_NAME) # lookup client guid
                 existing_client = realm_admin.get_client(c) # query client info
                 if existing_client != None and existing_client["name"] == CLIENT_NAME:
