@@ -77,3 +77,7 @@ variable "affinity" {
     error_message = "\"affinity.selector\" argument must be a string or object { default, app, job }"
   }
 }
+
+variable "cloud_provider" {
+  type = string
+}

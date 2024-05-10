@@ -90,3 +90,10 @@ variable "affinity" {
     error_message = "\"affinity.selector\" argument must be a string or object { default, app, job }"
   }
 }
+
+# GENERAL SETTINGS
+# -----------------
+variable "cloud_provider" {
+  description = "Cloud provider where Nebari is deployed to"
+  type        = string
+}

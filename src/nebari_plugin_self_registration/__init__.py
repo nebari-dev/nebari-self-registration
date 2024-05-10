@@ -167,7 +167,7 @@ class SelfRegistrationStage(NebariTerraformStage):
                 if isinstance(self.config.self_registration.affinity.selector, SelfRegistrationAffinitySelectorConfig)
                 else self.config.self_registration.affinity.selector,
             },
-
+            "cloud_provider": self.config.provider,
         }
 
     def get_keycloak_config(self, stage_outputs: Dict[str, Dict[str, Any]]):
