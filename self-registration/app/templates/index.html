@@ -8,7 +8,9 @@
   </head>
   <body>
     <header class="flex content-center">
-      <img src="{{ url_prefix }}/static/logo.png" alt="logo" />
+      <a href="{{ url_prefix }}"
+        ><img src="{{ url_prefix }}/static/logo.svg" alt="logo"
+      /></a>
     </header>
     <div class="container flex justify-center">
       <div class="card content-center">
@@ -21,7 +23,7 @@
             account for our AI platform.
           </p>
           {% if error_message %}
-          <p style="color: red" class="w-full">{{ error_message }}</p>
+          <p class="w-full error">{{ error_message }}</p>
           {% endif %}
           <form method="post" action="{{ url_prefix }}/validate/">
             <div class="form-group">

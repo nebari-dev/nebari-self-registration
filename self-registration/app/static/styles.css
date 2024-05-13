@@ -1,10 +1,41 @@
+:root {
+  --heading-color: #0f1015;
+  --text-color: #1c1d26;
+  --link-text-color: #1c1d26;
+  --primary-color: #ba18da;
+  --primary-color-dark: #9b00ce;
+  --secondary-color: #18817a;
+  --secondary-color-dark: #12635e;
+  --accent-color: #eda61d;
+  --accent-color-dark: #a16d14;
+  --navbar-background-color: #1c1d26;
+  --navbar-text-color: #ffffff;
+  --navbar-hover-color: #20b1a8;
+  --link-hover-color: #20b1a8;
+  --light-text-color: #f1f1f6;
+  --danger-color: #e60f66;
+  --danger-color-dark: #b81a53;
+  --gray-color: #e6e6e6;
+  --gray-color-dark: #e1e3e4;
+  --white-color: #fff;
+  --blue-link-color: #276be9;
+
+  /* Miscellaneous */
+  --button-hover-shadow: 0 3px 0 var(--text-color);
+  --focus-width: 2px;
+  --focus-shadow: 5px 5px 7px rgba(0, 0, 0, 0.1);
+  --outline-offset: 0.25rem;
+  --outline-reset: 1px solid transparent;
+  --text-decoration-thickness: 2px;
+}
+
 header {
   height: 41px;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--navbar-background-color);
+  color: var(--navbar-text-color);
   font-size: 36px;
 }
-header > img {
+header > a > img {
   height: 28px;
   margin: 6px 24px;
 }
@@ -17,7 +48,7 @@ header > img {
   width: 400px;
   margin: auto auto;
   vertical-align: middle;
-  border: 1px solid #e6e6e6;
+  border: 1px solid var(--gray-color);
   border-radius: 4px;
 }
 .card-header {
@@ -27,11 +58,11 @@ header > img {
   align-items: flex-start;
   gap: 8px;
   align-self: stretch;
-  border: 1px solid #e1e3e4;
-  background: #e1e3e4;
+  border: 1px solid var(--accent-color);
+  background: var(--accent-color);
 }
 .card-header > h1 {
-  color: #000;
+  color: var(--text-color);
   text-align: center;
   font-size: 24px;
   font-style: normal;
@@ -52,6 +83,9 @@ header > img {
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
+}
+.card-body > p.error {
+  color: var(--danger-color);
 }
 form {
   width: 100%;
@@ -84,12 +118,12 @@ input:not(.btn) {
   gap: 8px;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid #e1e1e6;
-  background: #fff;
+  border: 1px solid var(--gray-color-dark);
+  background: var(--white-color);
 }
 input:focus,
 .btn.btn-primary:focus {
-  outline: 0.2rem solid #2e5084;
+  outline: 0.2rem solid var(--primary-color);
 }
 .btn {
   width: 100%;
@@ -102,8 +136,8 @@ input:focus,
   cursor: pointer;
 }
 .btn-primary {
-  background-color: #2e5084 !important;
-  color: #fff;
+  background-color: var(--primary-color) !important;
+  color: var(--white-color) !important;
 }
 .btn-primary:focus {
   outline-offset: 0.2rem;
@@ -122,12 +156,12 @@ input:focus,
   align-items: center;
   gap: 8px;
   border-radius: 6px;
-  border: 1px solid #e1e1e6;
-  background: #fff;
+  border: 1px solid var(--gray-color-dark);
+  background: var(--white-color);
 }
 
 .password-content {
-  color: #000;
+  color: var(--text-color);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
