@@ -9,6 +9,7 @@ from fastapi import APIRouter, FastAPI, Form, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from keycloak import KeycloakAdmin, KeycloakConnectionError, KeycloakGetError
+from theme import DEFAULT_THEME
 
 
 class UserExistsException(Exception):
@@ -124,7 +125,7 @@ def assign_user_to_group(user, group_name):
 
 @app.get(url_prefix)
 def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request})
+    return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, **DEFAULT_THEME})
 
 
 @app.post(url_prefix + "/validate/")
@@ -139,7 +140,8 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                 )
             except UserExistsException as e:
                 return templates.TemplateResponse(
-                    "index.html", {"url_prefix": url_prefix, "request": request, "error_message": str(e)}
+                    "index.html",
+                    {"url_prefix": url_prefix, "request": request, "error_message": str(e), **DEFAULT_THEME},
                 )
 
             # Assign user to group
@@ -156,6 +158,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                             "temporary_password": temporary_password,
                             "user_id": user["id"],
                             "expiration_date": expiration_date.strftime("%m-%d-%Y"),
+                            **DEFAULT_THEME,
                         },
                     )
                 else:
@@ -165,6 +168,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                             "url_prefix": url_prefix,
                             "request": request,
                             "error_message": "Your user was registered but could not be granted access to JupyterLab environments.  Please contact support for assistance.",
+                            **DEFAULT_THEME,
                         },
                     )
             else:
@@ -174,6 +178,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                         "url_prefix": url_prefix,
                         "request": request,
                         "error_message": "Unable to create user.  Please try again later.",
+                        **DEFAULT_THEME,
                     },
                 )
 
@@ -184,10 +189,16 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                     "url_prefix": url_prefix,
                     "request": request,
                     "error_message": "Access to the platform is limited to accounts created with pre-approved email domains. The email address you provided when registering your account uses a domain that's not currently approved. Please contact the system administrator to request access.",
+                    **DEFAULT_THEME,
                 },
             )
     else:
         return templates.TemplateResponse(
             "index.html",
-            {"url_prefix": url_prefix, "request": request, "error_message": "Invalid coupon code. Please try again."},
+            {
+                "url_prefix": url_prefix,
+                "request": request,
+                "error_message": "Invalid coupon code. Please try again.",
+                **DEFAULT_THEME,
+            },
         )

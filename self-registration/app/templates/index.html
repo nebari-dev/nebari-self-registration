@@ -3,13 +3,15 @@
   <head>
     <title>Self Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet" /> -->
-    <link href="{{ url_prefix }}/static/styles.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="{{ url_prefix }}{{ favicon }}" />
+    <style type="text/css">
+      {% include 'styles.css' %}
+    </style>
   </head>
   <body>
     <header class="flex content-center">
       <a href="{{ url_prefix }}"
-        ><img src="{{ url_prefix }}/static/logo.svg" alt="logo"
+        ><img src="{{ url_prefix }}{{ logo }}" alt="logo"
       /></a>
     </header>
     <div class="container flex justify-center">
