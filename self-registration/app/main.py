@@ -23,12 +23,13 @@ app = FastAPI()
 app.mount(url_prefix + "/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-file_path = "/mnt/config.yaml"
-if os.path.exists(file_path):
-    with open(file_path) as file:
+mount_path = "/mnt/config.yaml"
+app_path = "/app/config.yaml"
+if os.path.exists(mount_path):
+    with open(mount_path) as file:
         config = yaml.safe_load(file)
-elif os.path.exists("/dev/config.yaml"):
-    with open(file_path) as file:
+elif os.path.exists(app_path):
+    with open(app_path) as file:
         config = yaml.safe_load(file)
 else:
     config = {}
