@@ -18,6 +18,18 @@ pip install nebari-plugin-self-registration
 
 ## Running locally with Docker
 
+_Note_: running locally requires the creation of a `config.yaml` file within the `self-registration/dev` directory. Please create that file with these configurations before proceeding:
+
+```
+namespace: self-registration
+coupons:
+- SOME_COUPON_CODE (ex. abcdefg)
+approved_domains:
+- SOME_EMAIL_DOMAIN (ex. metrostar.com)
+account_expiration_days: SOME_NUMBER (ex: 30)
+registration_group: SOME_GROUP (ex. test-group)
+```
+
 1. Navigate to the `self-registration` directory
 2. To build the docker image, run the following:
 
