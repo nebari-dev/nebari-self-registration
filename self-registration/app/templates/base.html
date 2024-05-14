@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Self Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="{{ url_prefix }}{{ favicon }}" />
+    <style type="text/css">
+      {% include 'styles.css' %}
+    </style>
+  </head>
+  <body>
+    <header class="flex content-center">
+      <a href="{{ url_prefix }}"
+        ><img src="{{ url_prefix }}{{ logo }}" alt="logo"
+      /></a>
+    </header>
+    <div class="container flex justify-center">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
