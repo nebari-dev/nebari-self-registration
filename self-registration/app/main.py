@@ -123,15 +123,19 @@ def assign_user_to_group(user, group_name):
     return True
 
 
+def get_theme():
+    return config.get("theme", DEFAULT_THEME)
+
+
 def get_template_context(request: Request, error_message: str = None):
     if (error_message is None) or (error_message == ""):
-        return {"url_prefix": url_prefix, "request": request, **DEFAULT_THEME}
+        return {"url_prefix": url_prefix, "request": request, **get_theme()}
     else:
         return {
             "url_prefix": url_prefix,
             "request": request,
             "error_message": error_message,
-            **DEFAULT_THEME,
+            **get_theme(),
         }
 
 
@@ -167,7 +171,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                             "temporary_password": temporary_password,
                             "user_id": user["id"],
                             "expiration_date": expiration_date.strftime("%m-%d-%Y"),
-                            **DEFAULT_THEME,
+                            **get_theme(),
                         },
                     )
                 else:
