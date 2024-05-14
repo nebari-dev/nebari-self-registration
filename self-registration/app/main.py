@@ -123,9 +123,21 @@ def assign_user_to_group(user, group_name):
     return True
 
 
+def get_template_context(request: Request, error_message: str = None):
+    if (error_message is None) or (error_message == ""):
+        return {"url_prefix": url_prefix, "request": request, **DEFAULT_THEME}
+    else:
+        return {
+            "url_prefix": url_prefix,
+            "request": request,
+            "error_message": error_message,
+            **DEFAULT_THEME,
+        }
+
+
 @app.get(url_prefix)
 def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"url_prefix": url_prefix, "request": request, **DEFAULT_THEME})
+    return templates.TemplateResponse("index.html", get_template_context(request))
 
 
 @app.post(url_prefix + "/validate/")
@@ -139,10 +151,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                     email, config.get("account_expiration_days", None)
                 )
             except UserExistsException as e:
-                return templates.TemplateResponse(
-                    "index.html",
-                    {"url_prefix": url_prefix, "request": request, "error_message": str(e), **DEFAULT_THEME},
-                )
+                return templates.TemplateResponse("index.html", get_template_context(request, str(e)))
 
             # Assign user to group
             if user:
@@ -164,41 +173,27 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                 else:
                     return templates.TemplateResponse(
                         "index.html",
-                        {
-                            "url_prefix": url_prefix,
-                            "request": request,
-                            "error_message": "Your user was registered but could not be granted access to JupyterLab environments.  Please contact support for assistance.",
-                            **DEFAULT_THEME,
-                        },
+                        get_template_context(
+                            request,
+                            "User created but could not be assigned to JupyterLab group.  Please contact support for assistance.",
+                        ),
                     )
             else:
                 return templates.TemplateResponse(
                     "index.html",
-                    {
-                        "url_prefix": url_prefix,
-                        "request": request,
-                        "error_message": "Unable to create user.  Please try again later.",
-                        **DEFAULT_THEME,
-                    },
+                    get_template_context(request, "Unable to create user.  Please try again later."),
                 )
 
         else:
             return templates.TemplateResponse(
                 "index.html",
-                {
-                    "url_prefix": url_prefix,
-                    "request": request,
-                    "error_message": "Access to the platform is limited to accounts created with pre-approved email domains. The email address you provided when registering your account uses a domain that's not currently approved. Please contact the system administrator to request access.",
-                    **DEFAULT_THEME,
-                },
+                get_template_context(
+                    request,
+                    "Access to the platform is limited to accounts created with pre-approved email domains. The email address you provided when registering your account uses a domain that's not currently approved. Please contact the system administrator to request access.",
+                ),
             )
     else:
         return templates.TemplateResponse(
             "index.html",
-            {
-                "url_prefix": url_prefix,
-                "request": request,
-                "error_message": "Invalid coupon code. Please try again.",
-                **DEFAULT_THEME,
-            },
+            get_template_context(request, "Invalid coupon code. Please try again."),
         )
