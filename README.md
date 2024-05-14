@@ -18,13 +18,13 @@ pip install nebari-plugin-self-registration
 
 ## Running locally with Docker
 
-_Note_: running locally requires a `config.yaml` file to be present within the `self-registration/dev` directory. Please rename the `sample.config.yaml` and update as needed before proceeding:
+_Note_: running locally requires a `config.yaml` file to be present within the `self-registration` directory. Please create a copy of the `sample.config.yaml`, rename, and update as needed before proceeding:
 
 1. Navigate to the `self-registration` directory
 2. To build the docker image, run the following:
 
 ```
-docker build . -t self-registration
+docker build . --file Dockerfile.local -t self-registration
 ```
 
 3. To run the app, run the following:

@@ -3,6 +3,7 @@ FROM python:3.12
 WORKDIR /app
 
 COPY ./requirements.txt /tmp/requirements.txt
+COPY ./config.yaml .
 
 # need to pre-install cython < 3 to avoid pyyaml >= 5.4.1 incompatibility https://github.com/yaml/pyyaml/issues/601
 RUN echo "cython<3" > /tmp/constraint.txt
