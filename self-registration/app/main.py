@@ -124,7 +124,11 @@ def assign_user_to_group(user, group_name):
 
 
 def get_theme():
-    return config.get("theme", DEFAULT_THEME)
+    theme = config.get("theme", {})
+    if theme:
+        return {**DEFAULT_THEME, **theme}
+    else:
+        return DEFAULT_THEME
 
 
 def get_template_context(request: Request, error_message: str = None):
