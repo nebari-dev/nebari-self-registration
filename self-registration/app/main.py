@@ -133,11 +133,17 @@ def get_theme():
 
 def get_template_context(request: Request, error_message: str = None):
     if (error_message is None) or (error_message == ""):
-        return {"url_prefix": url_prefix, "request": request, **get_theme()}
+        return {
+            "url_prefix": url_prefix,
+            "request": request,
+            "registration_message": config.get("registration_message", None),
+            **get_theme(),
+        }
     else:
         return {
             "url_prefix": url_prefix,
             "request": request,
+            "registration_message": config.get("registration_message", None),
             "error_message": error_message,
             **get_theme(),
         }

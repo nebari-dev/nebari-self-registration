@@ -5,8 +5,9 @@
   </div>
   <div class="card-body">
     <p>
-      Submit your email address and a valid coupon code to receive a trial
-      account for our AI platform.
+      {% if registration_message %} {{ (registration_message| safe) }} {% else
+      %} Submit your email address and a valid coupon code to receive a trial
+      account for our AI platform. {% endif %}
     </p>
     {% if error_message %}
     <p class="w-full error">{{ error_message }}</p>
