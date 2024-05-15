@@ -21,7 +21,7 @@ class SelfRegistrationAffinitySelectorConfig(Base):
     job: Optional[str] = ""
 
 
-class SelfRegistrationConfig(Base):
+class SelfRegistrationAffinityConfig(Base):
     enabled: Optional[bool] = True
     selector: Union[SelfRegistrationAffinitySelectorConfig, str] = "general"
 
@@ -34,7 +34,7 @@ class SelfRegistrationConfig(Base):
     approved_domains: Optional[List[str]] = []
     coupons: Optional[List[str]] = []
     registration_group: Optional[str] = ""
-    affinity: SelfRegistrationConfig = SelfRegistrationConfig()
+    affinity: SelfRegistrationAffinityConfig = SelfRegistrationAffinityConfig()
 
 
 class InputSchema(Base):
@@ -166,7 +166,7 @@ class SelfRegistrationStage(NebariTerraformStage):
                     else self.config.self_registration.affinity.selector
                 ),
             },
-            "theme": self.config.theme.jupyterhub,
+            "theme": self.config.theme.jupyterhub.dict(),
         }
 
     def get_keycloak_config(self, stage_outputs: Dict[str, Dict[str, Any]]):

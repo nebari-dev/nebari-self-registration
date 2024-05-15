@@ -77,3 +77,9 @@ variable "affinity" {
     error_message = "\"affinity.selector\" argument must be a string or object { default, app, job }"
   }
 }
+
+variable "theme" {
+  description = "Theme configured in theme.jupyterhub"
+  type        = map(any)
+  default     = {}
+}

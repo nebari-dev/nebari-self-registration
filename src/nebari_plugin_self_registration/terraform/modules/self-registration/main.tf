@@ -85,6 +85,7 @@ resource "helm_release" "self_registration" {
           client_id     = var.keycloak_config["client_id"]
           client_secret = var.keycloak_config["client_secret"]
         }
+        theme                   = var.theme
       }
       env = [
       ]
