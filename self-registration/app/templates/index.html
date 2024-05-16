@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block content %}
+<div class="card content-center">
+  <div class="card-header">
+    <h1>Account Registration</h1>
+  </div>
+  <div class="card-body">
+    <p>
+      {% if registration_message %} {{ (registration_message| safe) }} {% else
+      %} Submit your email address and a valid coupon code to receive a trial
+      account for our AI platform. {% endif %}
+    </p>
+    {% if error_message %}
+    <p class="w-full error">{{ error_message }}</p>
+    {% endif %}
+    <form method="post" action="{{ url_prefix }}/validate/">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="example@domain.com"
+          autofocus
+        />
+      </div>
+      <div class="form-group">
+        <label for="coupon_code">Coupon Code</label>
+        <input
+          type="text"
+          id="coupon_code"
+          name="coupon_code"
+          required
+          placeholder="ABCDE12345"
+        />
+      </div>
+      <div class="pt-4">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

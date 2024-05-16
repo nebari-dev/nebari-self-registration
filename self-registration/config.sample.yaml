@@ -1,0 +1,7 @@
+namespace: self-registration
+coupons:
+  - abcdefg
+approved_domains:
+  - metrostar.com
+account_expiration_days: 30
+registration_group: test-group

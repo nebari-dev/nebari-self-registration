@@ -21,10 +21,12 @@ module "self-registration" {
   ingress_host              = var.ingress_host
   self_registration_sa_name = local.self_registration_sa_name
   registration_group        = var.registration_group
+  registration_message      = var.registration_message
   namespace                 = var.namespace
   keycloak_base_url         = var.external_url
   keycloak_config           = module.keycloak.config
   overrides                 = var.overrides
   realm_id                  = var.realm_id
   affinity                  = var.affinity
+  theme                     = var.theme
 }
