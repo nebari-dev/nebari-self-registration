@@ -79,6 +79,7 @@ resource "helm_release" "self_registration" {
         approved_domains        = var.approved_domains
         account_expiration_days = var.account_expiration_days
         registration_group      = var.registration_group
+        registration_message    = var.registration_message
         keycloak = {
           server_url    = var.keycloak_base_url
           realm_name    = var.realm_id

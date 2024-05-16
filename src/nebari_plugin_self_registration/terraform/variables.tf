@@ -74,6 +74,12 @@ variable "registration_group" {
   default     = ""
 }
 
+variable "registration_message" {
+  description = "Custom message to display to registering users"
+  type        = string
+  default     = ""
+}
+
 variable "affinity" {
   type = object({
     enabled  = optional(bool, true)

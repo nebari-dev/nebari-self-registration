@@ -34,6 +34,7 @@ class SelfRegistrationConfig(Base):
     approved_domains: Optional[List[str]] = []
     coupons: Optional[List[str]] = []
     registration_group: Optional[str] = ""
+    registration_message: Optional[str] = ""
     affinity: SelfRegistrationAffinityConfig = SelfRegistrationAffinityConfig()
 
 
@@ -147,6 +148,7 @@ class SelfRegistrationStage(NebariTerraformStage):
             "approved_domains": self.config.self_registration.approved_domains,
             "coupons": self.config.self_registration.coupons,
             "registration_group": self.config.self_registration.registration_group,
+            "registration_message": self.config.self_registration.registration_message,
             "project_name": self.config.escaped_project_name,
             "realm_id": keycloak_config["realm_id"],
             "client_id": CLIENT_NAME,
