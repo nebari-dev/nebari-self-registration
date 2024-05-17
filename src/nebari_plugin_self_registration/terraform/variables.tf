@@ -103,6 +103,7 @@ variable "affinity" {
 variable "cloud_provider" {
   description = "Cloud provider where Nebari is deployed to"
   type        = string
+}
 
 variable "theme" {
   description = "Theme configured in theme.jupyterhub"
