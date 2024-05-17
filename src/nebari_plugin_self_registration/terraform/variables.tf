@@ -74,6 +74,12 @@ variable "registration_group" {
   default     = ""
 }
 
+variable "registration_message" {
+  description = "Custom message to display to registering users"
+  type        = string
+  default     = ""
+}
+
 variable "affinity" {
   type = object({
     enabled  = optional(bool, true)
@@ -91,9 +97,16 @@ variable "affinity" {
   }
 }
 
+
 # GENERAL SETTINGS
 # -----------------
 variable "cloud_provider" {
   description = "Cloud provider where Nebari is deployed to"
   type        = string
+
+variable "theme" {
+  description = "Theme configured in theme.jupyterhub"
+  type        = map(any)
+  default     = {}
+
 }

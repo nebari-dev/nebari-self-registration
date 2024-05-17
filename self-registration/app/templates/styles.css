@@ -1,25 +1,52 @@
+:root {
+  --heading-color: {{ h1_color | default("#0f1015") }};
+  --text-color: {{ text_color | default("#1c1d26") }};
+  --link-text-color: {{ text_color | default("#1c1d26") }};
+  --primary-color: {{ primary_color | default("#ba18da") }};
+  --primary-color-dark: {{ primary_color_dark | default("#9b00ce") }};
+  --secondary-color: {{ secondary_color | default("#18817a") }};
+  --secondary-color-dark: {{ secondary_color_dark | default("#12635e") }};
+  --accent-color: {{ accent_color | default("#eda61d") }};
+  --accent-color-dark: {{ accent_color_dark | default("#a16d14") }};
+  --navbar-background-color: {{ navbar_color | default("#1c1d26") }};
+  --navbar-text-color: {{ navbar_text_color | default("#ffffff") }};
+  --navbar-hover-color: {{ navbar_hover_color | default("#20b1a8") }};
+  --link-hover-color: {{ accent_color | default("#20b1a8") }};
+  --light-text-color: #f1f1f6;
+  --danger-color: #e60f66;
+  --danger-color-dark: #b81a53;
+  --gray-color: #e6e6e6;
+  --gray-color-dark: #e1e3e4;
+  --white-color: #fff;
+  --blue-link-color: #276be9;
+}
+
 header {
   height: 41px;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--navbar-background-color);
+  color: var(--navbar-text-color);
   font-size: 36px;
 }
-header > img {
+
+header > a > img {
   height: 28px;
   margin: 6px 24px;
 }
+
 .container {
   max-width: 100% !important;
   height: 80vh;
   padding: 48px;
 }
+
 .card {
   width: 400px;
   margin: auto auto;
   vertical-align: middle;
-  border: 1px solid #e6e6e6;
+  border: 1px solid var(--gray-color);
   border-radius: 4px;
 }
+
 .card-header {
   display: flex;
   padding: 16px;
@@ -27,17 +54,19 @@ header > img {
   align-items: flex-start;
   gap: 8px;
   align-self: stretch;
-  border: 1px solid #e1e3e4;
-  background: #e1e3e4;
+  border: 1px solid var(--accent-color);
+  background: var(--accent-color);
 }
+
 .card-header > h1 {
-  color: #000;
+  color: var(--text-color);
   text-align: center;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
 }
+
 .card-body {
   display: flex;
   padding: 24px;
@@ -46,6 +75,7 @@ header > img {
   gap: 24px;
   align-self: stretch;
 }
+
 .card-body > p {
   color: #000;
   font-size: 16px;
@@ -53,9 +83,15 @@ header > img {
   font-weight: 400;
   line-height: 24px;
 }
+
+.card-body > p.error {
+  color: var(--danger-color);
+}
+
 form {
   width: 100%;
 }
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -64,6 +100,7 @@ form {
   align-self: stretch;
   padding-bottom: 20px;
 }
+
 label {
   display: flex;
   flex-direction: column;
@@ -76,6 +113,7 @@ label {
   font-weight: 400;
   line-height: 16px;
 }
+
 input:not(.btn) {
   width: 100%;
   display: flex;
@@ -84,13 +122,15 @@ input:not(.btn) {
   gap: 8px;
   align-self: stretch;
   border-radius: 6px;
-  border: 1px solid #e1e1e6;
-  background: #fff;
+  border: 1px solid var(--gray-color-dark);
+  background: var(--white-color);
 }
+
 input:focus,
 .btn.btn-primary:focus {
-  outline: 0.2rem solid #2e5084;
+  outline: 0.2rem solid var(--primary-color);
 }
+
 .btn {
   width: 100%;
   display: flex;
@@ -101,13 +141,16 @@ input:focus,
   border-radius: 4px;
   cursor: pointer;
 }
+
 .btn-primary {
-  background-color: #2e5084 !important;
-  color: #fff;
+  background-color: var(--primary-color) !important;
+  color: var(--white-color) !important;
 }
+
 .btn-primary:focus {
   outline-offset: 0.2rem;
 }
+
 .confirmation > h1 {
   color: #000;
   font-size: 36px;
@@ -115,6 +158,7 @@ input:focus,
   font-weight: 600;
   line-height: 32px;
 }
+
 .password-box {
   width: 300px;
   display: flex;
@@ -122,12 +166,12 @@ input:focus,
   align-items: center;
   gap: 8px;
   border-radius: 6px;
-  border: 1px solid #e1e1e6;
-  background: #fff;
+  border: 1px solid var(--gray-color-dark);
+  background: var(--white-color);
 }
 
 .password-content {
-  color: #000;
+  color: var(--text-color);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

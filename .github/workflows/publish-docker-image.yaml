@@ -2,12 +2,12 @@ name: Publish Docker Image
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
     paths:
-      - docker/**
+      - self-registration/**
   pull_request:
     paths:
-      - docker/**
+      - self-registration/**
 
 env:
   REGISTRY: ghcr.io
@@ -26,7 +26,7 @@ jobs:
       - name: Set the timestamp for version
         run: echo "VERSION=$(date +'%Y%m%d-%H%M')" >> ${GITHUB_ENV}
       - name: Build image
-        run: docker build docker --file docker/Dockerfile --tag $IMAGE_LC --label "runnumber=${GITHUB_RUN_ID}"
+        run: docker build self-registration --file self-registration/Dockerfile --tag $IMAGE_LC --label "runnumber=${GITHUB_RUN_ID}"
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login $REGISTRY -u $ --password-stdin
       - name: Push image
