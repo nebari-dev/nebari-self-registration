@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Self Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% if favicon.startswith('/') %}
+    <link rel="icon" type="image/x-icon" href="{{ url_prefix }}{{ favicon }}" />
+    {% else %}
+    <link rel="icon" type="image/x-icon" href="{{ favicon }}" />
+    {% endif %}
+    <style type="text/css">
+      {% include 'styles.css' %}
+    </style>
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <header class="flex content-center">
+      <a href="{{ url_prefix }}">
+        {% if logo.startswith('/') %}
+        <img src="{{ url_prefix }}{{ logo }}" alt="logo" />
+        {% else %}
+        <img src="{{ logo }}" alt="logo" />
+        {% endif %}
+      </a>
+    </header>
+    <div class="container flex justify-center">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
