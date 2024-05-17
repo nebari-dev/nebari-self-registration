@@ -22,7 +22,7 @@ class SelfRegistrationAffinitySelectorConfig(Base):
     app: Optional[str] = ""
     job: Optional[str] = ""
 
-class SelfRegistrationConfig(Base):
+class SelfRegistrationAffinityConfig(Base):
     enabled: Optional[bool] = True
     selector: Union[SelfRegistrationAffinitySelectorConfig, str] = "general"
 
@@ -34,7 +34,7 @@ class SelfRegistrationConfig(Base):
     approved_domains: Optional[List[str]] = []
     coupons: Optional[List[str]] = []
     registration_group: Optional[str] = ""    
-    affinity: SelfRegistrationConfig = SelfRegistrationConfig()
+    affinity: SelfRegistrationAffinityConfig = SelfRegistrationAffinityConfig()
 
 
 class InputSchema(Base):
