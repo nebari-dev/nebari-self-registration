@@ -20,7 +20,6 @@ class SelfRegistrationAffinitySelectorConfig(Base):
     app: Optional[str] = ""
     job: Optional[str] = ""
 
-
 class SelfRegistrationAffinityConfig(Base):
     enabled: Optional[bool] = True
     selector: Union[SelfRegistrationAffinitySelectorConfig, str] = "general"
@@ -168,6 +167,7 @@ class SelfRegistrationStage(NebariTerraformStage):
                     else self.config.self_registration.affinity.selector
                 ),
             },
+            "cloud_provider": self.config.provider,
             "theme": self.config.theme.jupyterhub.dict(),
         }
 

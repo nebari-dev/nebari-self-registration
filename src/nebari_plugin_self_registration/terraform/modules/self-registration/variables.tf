@@ -84,6 +84,11 @@ variable "affinity" {
   }
 }
 
+
+variable "cloud_provider" {
+  type = string
+}
+
 variable "theme" {
   description = "Theme configured in theme.jupyterhub"
   type        = map(any)

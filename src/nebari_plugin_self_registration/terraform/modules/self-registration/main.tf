@@ -12,6 +12,11 @@ locals {
     enabled  = false
     selector = null
   }
+
+  affinity_selector_key = {
+    aws = "eks.amazonaws.com/nodegroup"
+    gcp = "cloud.google.com/gke-nodepool"
+  }
 }
 
 resource "kubernetes_namespace" "this" {
@@ -42,7 +47,7 @@ resource "helm_release" "self_registration" {
               {
                 matchExpressions = [
                   {
-                    key      = "eks.amazonaws.com/nodegroup"
+                    key      = local.affinity_selector_key[var.cloud_provider]
                     operator = "In"
                     values   = [local.affinity.selector.app]
                   }
@@ -60,7 +65,7 @@ resource "helm_release" "self_registration" {
                 {
                   matchExpressions = [
                     {
-                      key      = "eks.amazonaws.com/nodegroup"
+                      key      = local.affinity_selector_key[var.cloud_provider]
                       operator = "In"
                       values   = [local.affinity.selector.job]
                     }

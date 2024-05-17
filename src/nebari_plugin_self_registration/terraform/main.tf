@@ -28,5 +28,6 @@ module "self-registration" {
   overrides                 = var.overrides
   realm_id                  = var.realm_id
   affinity                  = var.affinity
+  cloud_provider            = var.cloud_provider
   theme                     = var.theme
 }
