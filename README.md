@@ -8,13 +8,26 @@
 **Table of Contents**
 
 - [Installation](#installation)
+- [Configuration](#configuration)
 - [License](#license)
 
 ## Installation
+This project is meant to run as a plugin within a Nebari deployment. To learn how to get started with Nebari, check out the docs [here](https://www.nebari.dev/docs/welcome).
 
-```console
-pip install nebari-plugin-self-registration
-```
+In order to install this plugin as part of a Nebari deployment:
+- Create a conda environment for your Nebari deployment
+- Install the self registration plugin with `pip install nebari-plugin-self-registration`
+- Continue the initialization and deployment of Nebari per your provider [instructions](https://www.nebari.dev/docs/explanations/provider-configuration).
+
+### Configuration
+The configuration of your self registration app can be customized in several ways by creating a `config.yaml` file within the `self-registration` folder. An example of a configuration yaml is provided [here](https://github.com/MetroStar/nebari-self-registration/blob/main/self-registration/config.sample.yaml).
+
+Configuration options include:
+- **namespace**: Kubernetes namespace for this service.
+- **coupons**: List of coupon codes that can be used by individuals during the self registration process.
+- **approved_domains**: List of approved domains that can register accounts using the self registration service.
+- **account_expiration_days**: Days a user is provided to verify their account.
+- **registration_group**: Keycloak group identifying people added through self registration.
 
 ## Running locally with Docker
 
