@@ -19,15 +19,27 @@ In order to install this plugin as part of a Nebari deployment:
 - Install the self registration plugin with `pip install nebari-plugin-self-registration`
 - Continue the initialization and deployment of Nebari per your provider [instructions](https://www.nebari.dev/docs/explanations/provider-configuration).
 
+> **NOTE:** When running `nebari render` and `nebari deploy`, Nebari will detect and install any extensions which are installed in your Python environment.  When managing multiple Nebari deployments, be sure to manage your conda environments to ensure the correct extensions and versions are installed in your target deployment.
+
+
 ### Configuration
 The configuration of your self registration app can be customized in several ways by creating a `config.yaml` file within the `self-registration` folder. An example of a configuration yaml is provided [here](https://github.com/MetroStar/nebari-self-registration/blob/main/self-registration/config.sample.yaml).
 
 Configuration options include:
-- **namespace**: Kubernetes namespace for this service.
-- **coupons**: List of coupon codes that can be used by individuals during the self registration process.
-- **approved_domains**: List of approved domains that can register accounts using the self registration service.
-- **account_expiration_days**: Days a user is provided to verify their account.
-- **registration_group**: Keycloak group identifying people added through self registration.
+
+
+- **account_expiration_days (optional)**: Days a user is provided to verify their account.  Defaults to 7.
+- **approved_domains (required)**: List of approved email domains that can register accounts using the self registration service.  (supports names like `gmail.com` and wildcards such as `*.edu`)
+- **coupons (required)**: List of coupon codes that can be used by individuals during the self registration process.
+- **registration_group (required)**: Keycloak group where all registering users will be added.  This group can then be used to assign user properties such as available JupyterLab instance types, app sharing permissions, etc.
+- **name (optional)**: Name for resources that this extension will deploy via Terraform and Helm.  Defaults to `self-registration`
+- **namespace (optional)**: Kubernetes namespace for this service.  Defaults to Nebari's default namespace.
+- **registration_message (optional)**: A custom message to display on the landing page `/registration`
+- **values (optional)**: Any additional values that will be passed to the Helm chart as `overrides`
+- **affinity (optional)**: Set a custom Kubernetes affinity for the app and/or job.  Defaults to the `general` node group.
+
+
+> **NOTE:** The `registration_group` must have been created in the Nebari realm in Keycloak prior to deploying the extension.
 
 ## Running locally with Docker
 
