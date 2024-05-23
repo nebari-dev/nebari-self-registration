@@ -77,6 +77,10 @@ In order to require email validation for your Nebari deployment, you must:
 
 > NOTE: As of May 2024, neither requiring email validation nor specifying outgoing SMTP are configurable within your `nebari-config.yaml` file.  However, these settings once configured manually will not be overridden by subsequent `nebari deploy` actions.
 
+### Theming
+
+This extension's registration web pages will use Nebari's default styles out of the box.  It will also apply any styles which are applied to your main JupyterHub theme in your config file's `theme.jupyterhub`.  See [Customize JupyterHub Theme](https://www.nebari.dev/docs/explanations/customize-themes/) in Nebari docs for more details.
+
 ## Running locally with Docker
 
 _Note_: running locally requires a `config.yaml` file to be present within the `self-registration` directory. Please create a copy of the `sample.config.yaml`, rename, and update as needed before proceeding:
