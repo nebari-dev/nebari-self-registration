@@ -22,14 +22,14 @@ In order to install this plugin as part of a Nebari deployment:
 > **NOTE:** When running `nebari render` and `nebari deploy`, Nebari will detect and install any extensions which are installed in your Python environment.  When managing multiple Nebari deployments, be sure to manage your conda environments to ensure the correct extensions and versions are installed in your target deployment.
 
 
-### Configuration
-The configuration of your self registration app can be customized in several ways by creating a `config.yaml` file within the `self-registration` folder. An example of a configuration yaml is provided [here](https://github.com/MetroStar/nebari-self-registration/blob/main/self-registration/config.sample.yaml).
+### Basic Configuration
+The configuration of your self registration app can be customized in several ways within your `nebari-config.yaml` file under the key `self_registration`.
 
 Configuration options include:
 
 
-- **account_expiration_days (optional)**: Days a user is provided to verify their account.  Defaults to 7.
-- **approved_domains (required)**: List of approved email domains that can register accounts using the self registration service.  (supports names like `gmail.com` and wildcards such as `*.edu`)
+- **account_expiration_days (optional)**: Days an account remains active after the user registers.  Defaults to 7.  Note that the calculated end date is saved in Keycloak user attribute `account_expiration_date` and can be manually overridden by a Keycloak administrator.
+- **approved_domains (required)**: List of approved email domains that can register accounts using the self registration service.  (supports names like `gmail.com` and wildcards such as `*.edu` or even `*`)
 - **coupons (required)**: List of coupon codes that can be used by individuals during the self registration process.
 - **registration_group (required)**: Keycloak group where all registering users will be added.  This group can then be used to assign user properties such as available JupyterLab instance types, app sharing permissions, etc.
 - **name (optional)**: Name for resources that this extension will deploy via Terraform and Helm.  Defaults to `self-registration`
@@ -40,6 +40,42 @@ Configuration options include:
 
 
 > **NOTE:** The `registration_group` must have been created in the Nebari realm in Keycloak prior to deploying the extension.
+
+#### Example Nebari Config File
+```yaml
+provider: aws
+namespace: dev
+nebari_version: 2024.4.1
+project_name: my-project
+# ...
+# More Nebari configurations
+# ...
+self_registration:
+  namespace: self-registration
+  coupons:
+    - abcdefg
+  approved_domains:
+    - gmail.com
+    - '*.edu'
+  account_expiration_days: 30
+  registration_group: test-group
+  affinity:
+    enabled: true
+    selector:
+      app: nodegroup_a
+      job: nodegroup_b
+```
+
+### Email Validation
+
+The `approved_domains` feature of this self registration app is intended as an additional security feature to prevent unauthorized users from running up compute costs.  We recommend enabling email validation in conjunction with this extension. However, the extension itself does not enforce user email validation nor configure Nebari's Keycloak instance to send emails as those are both core Nebari settings.
+
+In order to require email validation for your Nebari deployment, you must:
+
+1) **Enable email validation** in the Keycloak administration console under the Nebari Realm.  Go to "Realm Settings" and under the "Login" tab set "Verify Email" to ON.
+2) **Configure outgoing email** as described in Nebari's [How-To Guide for Configuring SMTP](https://www.nebari.dev/docs/how-tos/configuring-smtp).
+
+> NOTE: As of May 2024, neither requiring email validation nor specifying outgoing SMTP are configurable within your `nebari-config.yaml` file.  However, these settings once configured manually will not be overridden by subsequent `nebari deploy` actions.
 
 ## Running locally with Docker
 
@@ -79,13 +115,12 @@ Steps for self registration:
 
 - After clicking "Submit" follow the instructions to login with your temporary password. By clicking the "Login" button, it will take you to a Welcome page where you can sign in with Keycloak.
 
-- After you have entered a new password, you will receive a verification email.
-
 <p align="center">
   <img src="images/account-confirm.png" />
 </p>
 
-- Once your email is verified and you login you will see the Nebari landing page.
+- ***If email validation is configured***, the system will now send your email account a validation link at this step, and you then must follow email validation link you receive in order to complete your initial login.
+- After you login you will see the Nebari landing page.
 
 <p align="center">
   <img src="images/nebari-splash.png" />
