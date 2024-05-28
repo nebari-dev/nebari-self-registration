@@ -105,14 +105,23 @@ docker run -p 8000:8000 --name self-registration self-registration
 Steps for self registration:
 
 - Navigate to your Nebari domain.
+
 <p align="center">
-  <img src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/welcome-nebari.png" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/welcome-nebari.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/welcome-nebari.png">
+  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/welcome-nebari.png" width="50%"/>
+</picture>
 </p>
 
 - You may have a hyperlink on the welcome page that takes you to the user registration form. If not, navigate to https://{your-domain-name}/registration
 
 <p align="center">
-  <img src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-register.png" width="400"/>
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-register.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-register.png">
+  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-register.png" width="50%"/>
+</picture>
 </p>
 
 - Enter your email address and coupon code.
@@ -120,14 +129,22 @@ Steps for self registration:
 - After clicking "Submit" follow the instructions to login with your temporary password. By clicking the "Login" button, it will take you to a Welcome page where you can sign in with Keycloak.
 
 <p align="center">
-  <img src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png">
+  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png" width="75%"/>
+</picture>
 </p>
 
 - ***If email validation is configured***, the system will now send your email account a validation link at this step, and you then must follow email validation link you receive in order to complete your initial login.
 - After you login you will see the Nebari landing page.
 
 <p align="center">
-  <img src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png" />
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png">
+  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png" width="75%"/>
+</picture>
 </p>
 
 ## License
