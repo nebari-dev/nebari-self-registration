@@ -132,7 +132,7 @@ Steps for self registration:
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png">
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png">
-  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png" width="50%"/>
+  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png" width="75%"/>
 </picture>
 </p>
 
@@ -143,7 +143,7 @@ Steps for self registration:
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png">
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png">
-  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png" width="50%"/>
+  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png" width="75%"/>
 </picture>
 </p>
 
