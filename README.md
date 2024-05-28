@@ -108,9 +108,9 @@ Steps for self registration:
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/welcome-nebari.png">
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/welcome-nebari.png">
-  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/welcome-nebari.png" width="50%"/>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/welcome-nebari.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/welcome-nebari.png">
+  <img alt="Nebari welcome screen." src="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/welcome-nebari.png" width="50%"/>
 </picture>
 </p>
 
@@ -118,9 +118,9 @@ Steps for self registration:
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-register.png">
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-register.png">
-  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-register.png" width="50%"/>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/account-register.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/account-register.png">
+  <img alt="Account registration screen." src="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/account-register.png" width="50%"/>
 </picture>
 </p>
 
@@ -130,9 +130,9 @@ Steps for self registration:
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png">
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png">
-  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/account-confirm.png" width="75%"/>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/account-confirm.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/account-confirm.png">
+  <img alt="Account confirmation screen" src="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/account-confirm.png" width="75%"/>
 </picture>
 </p>
 
@@ -141,9 +141,9 @@ Steps for self registration:
 
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png">
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png">
-  <img alt="Nebari logo mark - text will be black in light color mode and white in dark color mode." src="https://github.com/MetroStar/nebari-self-registration/blob/main/images/nebari-splash.png" width="75%"/>
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/nebari-splash.png">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/nebari-splash.png">
+  <img alt="Nebari splash page." src="https://raw.githubusercontent.com/MetroStar/nebari-self-registration/main/images/nebari-splash.png" width="75%"/>
 </picture>
 </p>
 
