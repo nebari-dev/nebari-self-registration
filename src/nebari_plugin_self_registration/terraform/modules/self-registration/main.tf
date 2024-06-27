@@ -12,6 +12,11 @@ locals {
     enabled  = false
     selector = null
   }
+
+  affinity_selector_key = {
+    aws = "eks.amazonaws.com/nodegroup"
+    gcp = "cloud.google.com/gke-nodepool"
+  }
 }
 
 resource "kubernetes_namespace" "this" {
@@ -42,7 +47,7 @@ resource "helm_release" "self_registration" {
               {
                 matchExpressions = [
                   {
-                    key      = "eks.amazonaws.com/nodegroup"
+                    key      = local.affinity_selector_key[var.cloud_provider]
                     operator = "In"
                     values   = [local.affinity.selector.app]
                   }
@@ -60,7 +65,7 @@ resource "helm_release" "self_registration" {
                 {
                   matchExpressions = [
                     {
-                      key      = "eks.amazonaws.com/nodegroup"
+                      key      = local.affinity_selector_key[var.cloud_provider]
                       operator = "In"
                       values   = [local.affinity.selector.job]
                     }
@@ -79,12 +84,14 @@ resource "helm_release" "self_registration" {
         approved_domains        = var.approved_domains
         account_expiration_days = var.account_expiration_days
         registration_group      = var.registration_group
+        registration_message    = var.registration_message
         keycloak = {
           server_url    = var.keycloak_base_url
           realm_name    = var.realm_id
           client_id     = var.keycloak_config["client_id"]
           client_secret = var.keycloak_config["client_secret"]
         }
+        theme                   = var.theme
       }
       env = [
       ]

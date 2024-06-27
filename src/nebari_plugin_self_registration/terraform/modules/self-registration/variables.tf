@@ -51,6 +51,12 @@ variable "registration_group" {
   type        = string
 }
 
+variable "registration_message" {
+  description = "Custom message to display to registering users"
+  type        = string
+  default     = ""
+}
+
 variable "self_registration_sa_name" {
   description = "Name of K8S service account for Self Registration app workloads"
   type        = string
@@ -76,4 +82,15 @@ variable "affinity" {
     condition     = can(tostring(var.affinity.selector)) || (can(var.affinity.selector.default) && length(try(var.affinity.selector.default, "")) > 0)
     error_message = "\"affinity.selector\" argument must be a string or object { default, app, job }"
   }
+}
+
+
+variable "cloud_provider" {
+  type = string
+}
+
+variable "theme" {
+  description = "Theme configured in theme.jupyterhub"
+  type        = map(any)
+  default     = {}
 }

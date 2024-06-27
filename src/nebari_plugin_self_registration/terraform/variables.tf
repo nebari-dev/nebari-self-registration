@@ -74,6 +74,12 @@ variable "registration_group" {
   default     = ""
 }
 
+variable "registration_message" {
+  description = "Custom message to display to registering users"
+  type        = string
+  default     = ""
+}
+
 variable "affinity" {
   type = object({
     enabled  = optional(bool, true)
@@ -89,4 +95,19 @@ variable "affinity" {
     condition     = can(tostring(var.affinity.selector)) || (can(var.affinity.selector.default) && length(try(var.affinity.selector.default, "")) > 0)
     error_message = "\"affinity.selector\" argument must be a string or object { default, app, job }"
   }
+}
+
+
+# GENERAL SETTINGS
+# -----------------
+variable "cloud_provider" {
+  description = "Cloud provider where Nebari is deployed to"
+  type        = string
+}
+
+variable "theme" {
+  description = "Theme configured in theme.jupyterhub"
+  type        = map(any)
+  default     = {}
+
 }
