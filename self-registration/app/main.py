@@ -5,10 +5,11 @@ import string
 from datetime import datetime, timedelta
 
 import yaml
-from fastapi import APIRouter, FastAPI, Form, Request
+from fastapi import FastAPI, Form, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from keycloak import KeycloakAdmin, KeycloakConnectionError, KeycloakGetError
+
 from theme import DEFAULT_THEME
 
 
@@ -36,8 +37,7 @@ else:
     config = {}
 
 
-def check_email_domain(email):
-    approved_domains = config.get("approved_domains", [])
+def check_email_domain(email, approved_domains):
     for domain in approved_domains:
         # Replace wildcard with its regex equivalent
         pattern = domain.replace("*", ".*")
@@ -96,29 +96,30 @@ def create_keycloak_user(email, expiration_days=7):
 
 
 # Function to assign a user to a group
-def assign_user_to_group(user, group_name):
-    try:
-        keycloak_admin = KeycloakAdmin(
-            server_url=config["keycloak"]["server_url"],
-            realm_name=config["keycloak"]["realm_name"],
-            client_id=config["keycloak"]["client_id"],
-            client_secret_key=config["keycloak"]["client_secret"],
-            user_realm_name=config["keycloak"]["realm_name"],
-            verify=True,
-        )
-    except KeycloakConnectionError:
-        return False
+def assign_user_to_groups(user, groups):
+    for group_name in groups:
+        try:
+            keycloak_admin = KeycloakAdmin(
+                server_url=config["keycloak"]["server_url"],
+                realm_name=config["keycloak"]["realm_name"],
+                client_id=config["keycloak"]["client_id"],
+                client_secret_key=config["keycloak"]["client_secret"],
+                user_realm_name=config["keycloak"]["realm_name"],
+                verify=True,
+            )
+        except KeycloakConnectionError:
+            return False
 
-    # Get group
-    try:
-        group = keycloak_admin.get_group_by_path(group_name)
-    except KeycloakGetError:
-        return False  # Fail if Keycloak group throws exception finding group
-    if not group:
-        return False  # Also fail if Keycloak admin doesn't throw exception but group is still missing
+        # Get group
+        try:
+            group = keycloak_admin.get_group_by_path(group_name)
+        except KeycloakGetError:
+            return False  # Fail if Keycloak group throws exception finding group
+        if not group:
+            return False  # Also fail if Keycloak admin doesn't throw exception but group is still missing
 
-    # Assign the user to the group
-    keycloak_admin.group_user_add(user["id"], group["id"])
+        # Assign the user to the group
+        keycloak_admin.group_user_add(user["id"], group["id"])
 
     return True
 
@@ -156,20 +157,20 @@ def read_root(request: Request):
 
 @app.post(url_prefix + "/validate/")
 async def validate_submission(request: Request, email: str = Form(...), coupon_code: str = Form(...)):
-    if coupon_code in config.get("coupons", []):
-        if check_email_domain(email):
+    if coupon_config := config.get("coupons", {}).get(coupon_code):
+        if check_email_domain(email, coupon_config.get("approved_domains", [])):
 
             # Create the user in Keycloak
             try:
                 user, temporary_password, expiration_date = create_keycloak_user(
-                    email, config.get("account_expiration_days", None)
+                    email, coupon_config.get("account_expiration_days", None)
                 )
             except UserExistsException as e:
                 return templates.TemplateResponse("index.html", get_template_context(request, str(e)))
 
             # Assign user to group
             if user:
-                success = assign_user_to_group(user, config.get("registration_group", None))
+                success = assign_user_to_groups(user, coupon_config.get("registration_groups", []))
 
                 if success:
                     return templates.TemplateResponse(

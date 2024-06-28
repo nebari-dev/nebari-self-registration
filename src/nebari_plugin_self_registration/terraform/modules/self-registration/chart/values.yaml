@@ -99,15 +99,11 @@ job:
   securityContext: {}
   resources: {}
   affinity: {}
-  
 
 app_configuration:
-  account_expiration_days: 7
-  approved_domains: []
-  coupons: []
+  coupons: {}
   keycloak:
     server_url: "http://server.com/auth"
     realm_name: "my-realm"
     client_id: "self-registration"
     client_secret: ""
-  registration_group: ""

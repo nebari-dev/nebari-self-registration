@@ -3,19 +3,14 @@ variable "chart_name" {
   type        = string
 }
 
-variable "account_expiration_days" {
-  description = "Days a self-registered account remains active before expiring."
-  type        = number
-}
-
-variable "approved_domains" {
-  description = "Approved email domains for user self registration"
-  type        = list(string)
-}
-
 variable "coupons" {
-  description = "Valid coupons for user self registration"
-  type        = list(string)
+  description = "Coupon configuration for user self registration"
+  type = map(object({
+    account_expiration_days = number
+    approved_domains        = list(string)
+    registration_groups     = list(string)
+  }))
+  default = {}
 }
 
 variable "create_namespace" {
@@ -43,11 +38,6 @@ variable "namespace" {
 
 variable "realm_id" {
   description = "Keycloak realm_id"
-  type        = string
-}
-
-variable "registration_group" {
-  description = "Name of Keycloak group to add registering users"
   type        = string
 }
 
@@ -83,7 +73,6 @@ variable "affinity" {
     error_message = "\"affinity.selector\" argument must be a string or object { default, app, job }"
   }
 }
-
 
 variable "cloud_provider" {
   type = string
