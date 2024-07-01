@@ -27,11 +27,10 @@ The configuration of your self registration app can be customized in several way
 
 Configuration options include:
 
-
-- **account_expiration_days (optional)**: Days an account remains active after the user registers.  Defaults to 7.  Note that the calculated end date is saved in Keycloak user attribute `account_expiration_date` and can be manually overridden by a Keycloak administrator.
-- **approved_domains (required)**: List of approved email domains that can register accounts using the self registration service.  (supports names like `gmail.com` and wildcards such as `*.edu` or even `*`)
-- **coupons (required)**: List of coupon codes that can be used by individuals during the self registration process.
-- **registration_group (required)**: Keycloak group where all registering users will be added.  This group can then be used to assign user properties such as available JupyterLab instance types, app sharing permissions, etc.
+- **coupons (required)**: Map of coupon codes and their configuration that can be used by individuals during the self registration process. The coupon configuration options are:
+  - **account_expiration_days (optional)**: Days an account remains active after the user registers.  Defaults to 7.  Note that the calculated end date is saved in Keycloak user attribute `account_expiration_date` and can be manually overridden by a Keycloak administrator.
+  - **approved_domains (required)**: List of approved email domains that can register accounts using the self registration service.  (supports names like `gmail.com` and wildcards such as `*.edu` or even `*`)
+  - **registration_groups (optional)**: List of Keycloak group where all registering users will be added.  This group can then be used to assign user properties such as available JupyterLab instance types, app sharing permissions, etc.
 - **name (optional)**: Name for resources that this extension will deploy via Terraform and Helm.  Defaults to `self-registration`
 - **namespace (optional)**: Kubernetes namespace for this service.  Defaults to Nebari's default namespace.
 - **registration_message (optional)**: A custom message to display on the landing page `/registration`
@@ -53,12 +52,17 @@ project_name: my-project
 self_registration:
   namespace: self-registration
   coupons:
-    - abcdefg
-  approved_domains:
-    - gmail.com
-    - '*.edu'
-  account_expiration_days: 30
-  registration_group: test-group
+    abcdefg:
+      approved_domains:
+        - gmail.com
+        - '*.edu'
+      account_expiration_days: 30
+      registration_groups: [test-group, developer]
+    hijklmn:
+      approved_domains:
+        - '*'
+      account_expiration_days: 7
+      registration_groups: [admin]
   affinity:
     enabled: true
     selector:
