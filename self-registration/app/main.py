@@ -190,7 +190,7 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                         "index.html",
                         get_template_context(
                             request,
-                            "User created but could not be assigned to JupyterLab group.  Please contact support for assistance.",
+                            "User created but could not be assigned to one or more groups. Please contact support for assistance.",
                         ),
                     )
             else:
