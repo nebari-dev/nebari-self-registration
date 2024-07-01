@@ -16,7 +16,6 @@ locals {
   affinity_selector_key = {
     aws   = "eks.amazonaws.com/nodegroup"
     gcp   = "cloud.google.com/gke-nodepool"
-    local = "node-role.kubernetes.io/control-plane"
   }
 }
 
