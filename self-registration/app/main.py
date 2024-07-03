@@ -97,19 +97,19 @@ def create_keycloak_user(email, expiration_days=7):
 
 # Function to assign a user to a group
 def assign_user_to_groups(user, groups):
-    for group_name in groups:
-        try:
-            keycloak_admin = KeycloakAdmin(
-                server_url=config["keycloak"]["server_url"],
-                realm_name=config["keycloak"]["realm_name"],
-                client_id=config["keycloak"]["client_id"],
-                client_secret_key=config["keycloak"]["client_secret"],
-                user_realm_name=config["keycloak"]["realm_name"],
-                verify=True,
-            )
-        except KeycloakConnectionError:
-            return False
+    try:
+        keycloak_admin = KeycloakAdmin(
+            server_url=config["keycloak"]["server_url"],
+            realm_name=config["keycloak"]["realm_name"],
+            client_id=config["keycloak"]["client_id"],
+            client_secret_key=config["keycloak"]["client_secret"],
+            user_realm_name=config["keycloak"]["realm_name"],
+            verify=True,
+        )
+    except KeycloakConnectionError:
+        return False
 
+    for group_name in groups:
         # Get group
         try:
             group = keycloak_admin.get_group_by_path(group_name)
