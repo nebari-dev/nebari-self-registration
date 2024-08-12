@@ -41,6 +41,10 @@ Configuration options include:
 > **NOTE:** The `registration_group` must have been created in the Nebari realm in Keycloak prior to deploying the extension.
 
 #### Example Nebari Config File
+
+> [!NOTE]
+> The configuration options for the plugin were recently updated. Previously, `self_registration.coupons` accepted a list of coupon codes and there were shared options for all the specified coupons (e.g., `approved_domains`, `account_expiration_days`, etc...). Now, the field takes a map of coupon codes, where each coupon accepts individual configuration options (as outlined below). Please make sure to update the configuration values when updating to newer versions of the plugin after `0.0.12`.
+
 ```yaml
 provider: aws
 namespace: dev
