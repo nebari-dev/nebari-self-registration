@@ -20,19 +20,23 @@ class SelfRegistrationAffinitySelectorConfig(Base):
     app: Optional[str] = ""
     job: Optional[str] = ""
 
+
 class SelfRegistrationAffinityConfig(Base):
     enabled: Optional[bool] = True
     selector: Union[SelfRegistrationAffinitySelectorConfig, str] = "general"
+
+
+class SelfRegistrationCouponConfig(Base):
+    account_expiration_days: Optional[int] = 7
+    approved_domains: Optional[List[str]] = []
+    registration_groups: Optional[List[str]] = []
 
 
 class SelfRegistrationConfig(Base):
     name: Optional[str] = "self-registration"
     namespace: Optional[str] = None
     values: Optional[Dict[str, Any]] = {}
-    account_expiration_days: Optional[int] = 7
-    approved_domains: Optional[List[str]] = []
-    coupons: Optional[List[str]] = []
-    registration_group: Optional[str] = ""
+    coupons: Optional[Dict[str, SelfRegistrationCouponConfig]] = {}
     registration_message: Optional[str] = ""
     affinity: SelfRegistrationAffinityConfig = SelfRegistrationAffinityConfig()
 
@@ -141,12 +145,14 @@ class SelfRegistrationStage(NebariTerraformStage):
             chart_ns = self.config.namespace
             create_ns = False
 
+        try:
+            theme = self.config.theme.jupyterhub.dict()
+        except AttributeError:
+            theme = {}
+
         return {
             "chart_name": self.config.self_registration.name,
-            "account_expiration_days": self.config.self_registration.account_expiration_days,
-            "approved_domains": self.config.self_registration.approved_domains,
-            "coupons": self.config.self_registration.coupons,
-            "registration_group": self.config.self_registration.registration_group,
+            "coupons": self.config.self_registration.model_dump()["coupons"],  # serialize nested objects using model_dump()
             "registration_message": self.config.self_registration.registration_message,
             "project_name": self.config.escaped_project_name,
             "realm_id": keycloak_config["realm_id"],
@@ -168,7 +174,7 @@ class SelfRegistrationStage(NebariTerraformStage):
                 ),
             },
             "cloud_provider": self.config.provider,
-            "theme": self.config.theme.jupyterhub.dict(),
+            "theme": theme,
         }
 
     def get_keycloak_config(self, stage_outputs: Dict[str, Dict[str, Any]]):
