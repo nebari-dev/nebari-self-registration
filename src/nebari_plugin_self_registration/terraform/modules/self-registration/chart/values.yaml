@@ -4,7 +4,7 @@
 
 replicaCount: 1
 image:
-  repository: quay.io/nebari-dev/nebari-self-registration
+  repository: quay.io/nebari/nebari-self-registration
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "20240515-1204"
