@@ -11,7 +11,7 @@ on:
 
 env:
   REGISTRY: quay.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: nebari/nebari-self-registration
 
 jobs:
   push:
