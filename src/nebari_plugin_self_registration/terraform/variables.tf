@@ -50,28 +50,14 @@ variable "overrides" {
   default = {}
 }
 
-variable "account_expiration_days" {
-  description = "Days a self-registered account remains active before expiring."
-  type        = number
-  default     = 7
-}
-
-variable "approved_domains" {
-  description = "Approved email domains for user self registration"
-  type        = list(string)
-  default     = []
-}
-
 variable "coupons" {
-  description = "Valid coupons for user self registration"
-  type        = list(string)
-  default     = []
-}
-
-variable "registration_group" {
-  description = "Name of Keycloak group to add registering users"
-  type        = string
-  default     = ""
+  description = "Coupon configuration for user self registration"
+  type = map(object({
+    account_expiration_days = number
+    approved_domains        = list(string)
+    registration_groups     = list(string)
+  }))
+  default = {}
 }
 
 variable "registration_message" {
@@ -97,7 +83,6 @@ variable "affinity" {
   }
 }
 
-
 # GENERAL SETTINGS
 # -----------------
 variable "cloud_provider" {
@@ -109,5 +94,4 @@ variable "theme" {
   description = "Theme configured in theme.jupyterhub"
   type        = map(any)
   default     = {}
-
 }
