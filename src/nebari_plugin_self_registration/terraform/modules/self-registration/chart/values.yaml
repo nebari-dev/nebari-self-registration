@@ -4,10 +4,10 @@
 
 replicaCount: 1
 image:
-  repository: ghcr.io/metrostar/nebari-self-registration
+  repository: quay.io/nebari/nebari-self-registration
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "20240515-1204"
+  tag: "20241023-1753"
 
 imagePullSecrets: []
 nameOverride: ""
