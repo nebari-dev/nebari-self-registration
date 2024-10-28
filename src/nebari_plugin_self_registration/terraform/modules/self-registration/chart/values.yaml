@@ -7,7 +7,7 @@ image:
   repository: quay.io/nebari/nebari-self-registration
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "20241023-1753"
+  tag: "20241025-1410"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -99,15 +99,11 @@ job:
   securityContext: {}
   resources: {}
   affinity: {}
-  
 
 app_configuration:
-  account_expiration_days: 7
-  approved_domains: []
-  coupons: []
+  coupons: {}
   keycloak:
     server_url: "http://server.com/auth"
     realm_name: "my-realm"
     client_id: "self-registration"
     client_secret: ""
-  registration_group: ""

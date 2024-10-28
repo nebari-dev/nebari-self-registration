@@ -5,7 +5,7 @@ locals {
       { for k in ["default", "app", "job"] : k => length(var.affinity.selector[k]) > 0 ? var.affinity.selector[k] : var.affinity.selector.default },
       {
         app = var.affinity.selector
-        job  = var.affinity.selector
+        job = var.affinity.selector
       },
     )
     } : {
@@ -14,8 +14,8 @@ locals {
   }
 
   affinity_selector_key = {
-    aws = "eks.amazonaws.com/nodegroup"
-    gcp = "cloud.google.com/gke-nodepool"
+    aws   = "eks.amazonaws.com/nodegroup"
+    gcp   = "cloud.google.com/gke-nodepool"
   }
 }
 
@@ -80,18 +80,15 @@ resource "helm_release" "self_registration" {
         name = var.self_registration_sa_name
       }
       app_configuration = {
-        coupons                 = var.coupons
-        approved_domains        = var.approved_domains
-        account_expiration_days = var.account_expiration_days
-        registration_group      = var.registration_group
-        registration_message    = var.registration_message
+        coupons              = var.coupons
+        registration_message = var.registration_message
         keycloak = {
           server_url    = var.keycloak_base_url
           realm_name    = var.realm_id
           client_id     = var.keycloak_config["client_id"]
           client_secret = var.keycloak_config["client_secret"]
         }
-        theme                   = var.theme
+        theme = var.theme
       }
       env = [
       ]
