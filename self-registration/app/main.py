@@ -62,14 +62,12 @@ def create_keycloak_user(email, expiration_days=7):
             verify=True,
         )
     except KeycloakConnectionError:
-        return email, False, None
+        return False, email, False, None
 
     # Check if the user already exists
     user_id = keycloak_admin.get_user_id(email)
     if user_id:
-        raise UserExistsException(
-            "A user with this email address already exists. Contact the administrator if you need to recover your account."
-        )
+        return True, keycloak_admin.get_user(user_id), None, None 
 
     # Calculate account expiration as Unix timestamp
     expiration_date = datetime.utcnow() + timedelta(days=expiration_days)
@@ -92,7 +90,28 @@ def create_keycloak_user(email, expiration_days=7):
     # Set a random temporary password
     temporary_password = generate_random_password()
     keycloak_admin.set_user_password(user_id, temporary_password, temporary=True)
-    return keycloak_admin.get_user(user_id), temporary_password, expiration_date
+    return False, keycloak_admin.get_user(user_id), temporary_password, expiration_date
+
+
+def remove_user_from_groups(user):
+    try:
+        keycloak_admin = KeycloakAdmin(
+            server_url=config["keycloak"]["server_url"],
+            realm_name=config["keycloak"]["realm_name"],
+            client_id=config["keycloak"]["client_id"],
+            client_secret_key=config["keycloak"]["client_secret"],
+            user_realm_name=config["keycloak"]["realm_name"],
+            verify=True,
+        )
+    except KeycloakConnectionError:
+        return False
+    
+    groups = keycloak_admin.get_user_groups(user["id"])
+    for group in groups:
+        if group["name"] not in ("analyst", "users"):
+            keycloak_admin.group_user_remove(user["id"], group["id"])
+
+    return True
 
 
 # Function to assign a user to a group
@@ -160,19 +179,18 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
     if coupon_config := config.get("coupons", {}).get(coupon_code):
         if check_email_domain(email, coupon_config.get("approved_domains", [])):
 
-            # Create the user in Keycloak
-            try:
-                user, temporary_password, expiration_date = create_keycloak_user(
-                    email, coupon_config.get("account_expiration_days", None)
-                )
-            except UserExistsException as e:
-                return templates.TemplateResponse("index.html", get_template_context(request, str(e)))
+            # Create the user in Keycloak if it does not exist
+            user_exists, user, temporary_password, expiration_date = create_keycloak_user(
+                email, coupon_config.get("account_expiration_days", None)
+            )
 
             # Assign user to group
             if user:
+                if user_exists:
+                    remove_user_from_groups(user)
                 success = assign_user_to_groups(user, coupon_config.get("registration_groups", []))
 
-                if success:
+                if success and not user_exists:
                     return templates.TemplateResponse(
                         "success.html",
                         {
@@ -182,6 +200,17 @@ async def validate_submission(request: Request, email: str = Form(...), coupon_c
                             "temporary_password": temporary_password,
                             "user_id": user["id"],
                             "expiration_date": expiration_date.strftime("%m-%d-%Y"),
+                            **get_theme(),
+                        },
+                    )
+                elif success and user_exists:
+                    return templates.TemplateResponse(
+                        "reregistration.html",
+                        {
+                            "url_prefix": url_prefix,
+                            "request": request,
+                            "email": email,
+                            "user_id": user["id"],
                             **get_theme(),
                         },
                     )
